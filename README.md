@@ -4,6 +4,8 @@ An internal dashboard for Neha (Category Head). It reads every return, including
 free-text "Other" comments, and shows what to fix first: which vendor, product type, size and city, with the
 customers' own words as proof. **All data in this repo is synthetic.**
 
+**Live dashboard:** https://r4mkum4r-return-pulse.static.hf.space (static Hugging Face Space: [huggingface.co/spaces/r4mkum4r/return-pulse](https://huggingface.co/spaces/r4mkum4r/return-pulse))
+
 ## Run it (under five minutes, no keys, no database)
 
 ```bash
@@ -20,7 +22,8 @@ Postgres instead, copy `.env.example` to `.env`, set `DATABASE_URL`, and export 
 - **When something goes wrong:** it says so on screen. Database down, unclear and failed comments, a mark that
   didn't save: see the failure table in `docs/frontend_deploy_plan.md` §3. `GET /health` reports the state.
 - **Tests:** `pip install -r requirements-dev.txt && pytest -q`
-- **Hosted version:** a free static Hugging Face Space. Every push to `main` rebuilds the dashboard's data
+- **Hosted version:** a free static Hugging Face Space. To publish from a laptop signed in with `hf auth login`:
+  `scripts/deploy_static.sh r4mkum4r/return-pulse`. Once the GitHub settings in the deploy plan are added, every push to `main` rebuilds the dashboard's data
   from `csv/` and publishes the page; no server runs. If `csv/classified_returns.csv` (the AI pipeline's
   output) is committed, the page uses those labels. Setup: `docs/frontend_deploy_plan.md` §4.
 - **Docker (optional):** `docker build -t return-pulse . && docker run -p 7860:7860 return-pulse` runs the API

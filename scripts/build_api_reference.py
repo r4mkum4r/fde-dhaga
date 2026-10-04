@@ -355,7 +355,7 @@ footer {{ color: var(--muted); font-size: 13px; margin-top: 40px; }}
 
     <h2 id="conventions">Conventions</h2>
     <div class="facts">
-      <div><b>Base URL</b><code>http://localhost:8000</code><br>Deployed URL: not live yet</div>
+      <div><b>Base URL</b><code>http://localhost:8000</code><br>The hosted dashboard at <a href="https://r4mkum4r-return-pulse.static.hf.space">r4mkum4r-return-pulse.static.hf.space</a> is a static site with no API: it serves the same JSON from <code>sample/*.json</code>.</div>
       <div><b>Format</b>JSON, UTF-8. Comments may contain Hinglish, Devanagari and emoji.</div>
       <div><b>Auth</b>None. Internal tool; the only write is a correction.</div>
       <div><b>Time window</b>Every count covers the latest twelve whole months in the data (<code>meta.window</code>).</div>

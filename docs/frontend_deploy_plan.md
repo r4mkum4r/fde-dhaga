@@ -59,6 +59,11 @@ Customer comments are untrusted: the frontend escapes all text before rendering.
 
 ## 4. Deployment: a static Hugging Face Space (free, no server)
 
+**Live:** https://r4mkum4r-return-pulse.static.hf.space · Space: https://huggingface.co/spaces/r4mkum4r/return-pulse
+
+**Deploy from a laptop** (signed in with `hf auth login`): `scripts/deploy_static.sh r4mkum4r/return-pulse`.
+The GitHub workflow below does the same on every push to `main`, once its settings are added.
+
 The hosted dashboard is a **static site**: the page plus JSON built from `csv/` by
 `scripts/build_sample_data.py`. No server runs, so nothing sleeps or costs money. If
 `csv/classified_returns.csv` (the AI pipeline's output) is committed, the page shows those labels.
@@ -101,7 +106,7 @@ Tests: `pip install -r requirements-dev.txt && pytest -q`.
 
 | # | Task | Owner | Done when |
 |---|---|---|---|
-| 1 | First deploy (section 4) | Frontend/deploy | `/health` on the Space shows the commit SHA, and a second merge changes it without anyone touching the Space |
+| 1 | First deploy (section 4) | Frontend/deploy | Done: live at https://r4mkum4r-return-pulse.static.hf.space. Remaining: add the GitHub settings so merges deploy automatically |
 | 2 | Shared corrections (optional) | Frontend/deploy | Only if Neha's marks must be shared: host the FastAPI app with Postgres instead of the static site |
 | 3 | Pipeline writes `classified_returns` | Pipeline | The banner changes from "keyword match" to "Test data", and the unclear and failed counts are the pipeline's |
 | 4 | Accuracy and cost lines in the build note | Pipeline + frontend | Accuracy against `eval_return_labels`, and cost per run at Dhaga's 48,000 orders a week, with the arithmetic shown |
