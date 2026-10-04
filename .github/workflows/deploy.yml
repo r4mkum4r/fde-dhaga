@@ -30,9 +30,11 @@ jobs:
           set -euo pipefail
           SHA=$(git rev-parse --short HEAD)
           mkdir -p /tmp/space
-          # Only what the app needs. The answer sheet and unused tables stay out of the public Space.
+          # Only what the app needs. The answer sheet and unused tables stay out of the public Space,
+          # and docs/ (which holds binary files such as the .pptx) stays out because Hugging Face
+          # rejects binary files that aren't stored with Git LFS.
           rsync -a ./ /tmp/space/ \
-            --exclude .git --exclude .github --exclude tests --exclude sql --exclude var \
+            --exclude .git --exclude .github --exclude tests --exclude sql --exclude var --exclude docs \
             --exclude csv/eval_return_labels.csv --exclude csv/customers.csv --exclude csv/reviews.csv
           cat deploy/space_header.md README.md > /tmp/space/README.md
           echo "$SHA" > /tmp/space/build_sha.txt
