@@ -311,6 +311,34 @@ def trend(all_rows, wins, issue):
     }
 
 
+CLASSIFIED_COLUMNS = ("return_id", "issue_type", "confidence", "evidence_phrase", "source", "model_name")
+
+
+def read_classified_csv(path):
+    """
+    The pipeline's output (csv/classified_returns.csv) as {return_id: row}, or None if the file
+    doesn't exist. Blank, NA and nan become None. A missing column is an error with a plain message.
+    """
+    import csv
+    from pathlib import Path
+    path = Path(path)
+    if not path.exists():
+        return None
+    with open(path, newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        missing = [c for c in ("return_id", "issue_type", "source") if c not in (reader.fieldnames or [])]
+        if missing:
+            raise ValueError(f"{path.name} is missing columns: {', '.join(missing)}")
+        out = {}
+        for row in reader:
+            clean = {}
+            for c in CLASSIFIED_COLUMNS:
+                v = (row.get(c) or "").strip()
+                clean[c] = None if v.lower() in ("", "na", "nan", "none", "null") else v
+            out[clean["return_id"]] = clean
+    return out
+
+
 RETURN_FILTERS = ("vendor_id", "subcategory", "city", "issue_type")
 
 

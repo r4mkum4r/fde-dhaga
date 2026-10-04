@@ -35,8 +35,9 @@ class Meta(Strict):
     confidence_threshold: float = Field(description="From the settings table", examples=[0.7])
     min_returns_per_hotspot: int = Field(description="From the settings table", examples=[20])
     classifier_note: Optional[str] = Field(None, description="Shown in the banner when set")
-    corrections_storage: Literal["permanent", "temporary"] = Field(
-        description="`temporary` on SQLite: corrections are lost when the app restarts")
+    corrections_storage: Literal["permanent", "temporary", "browser"] = Field(
+        description="`temporary` on SQLite: corrections are lost when the app restarts. "
+                    "`browser` on the static site: each viewer's marks stay in their own browser")
 
 
 class Headline(Strict):

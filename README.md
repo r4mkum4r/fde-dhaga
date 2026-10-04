@@ -20,8 +20,11 @@ Postgres instead, copy `.env.example` to `.env`, set `DATABASE_URL`, and export 
 - **When something goes wrong:** it says so on screen. Database down, unclear and failed comments, a mark that
   didn't save: see the failure table in `docs/frontend_deploy_plan.md` §3. `GET /health` reports the state.
 - **Tests:** `pip install -r requirements-dev.txt && pytest -q`
-- **Docker / Hugging Face Space:** `docker build -t return-pulse . && docker run -p 7860:7860 return-pulse`.
-  Deployment setup is in `docs/frontend_deploy_plan.md` §4.
+- **Hosted version:** a free static Hugging Face Space. Every push to `main` rebuilds the dashboard's data
+  from `csv/` and publishes the page; no server runs. If `csv/classified_returns.csv` (the AI pipeline's
+  output) is committed, the page uses those labels. Setup: `docs/frontend_deploy_plan.md` §4.
+- **Docker (optional):** `docker build -t return-pulse . && docker run -p 7860:7860 return-pulse` runs the API
+  and page together, for hosts that run containers.
 - **More:** `frontend/README.md` (the page), `frontend/API_CONTRACT.md` (the endpoints).
 
 ---

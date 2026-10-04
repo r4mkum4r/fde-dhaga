@@ -1,7 +1,10 @@
-# Deploys main to the Hugging Face Space, then waits until /health answers.
+# Deploys main to the Hugging Face Space as a STATIC site (no server, free, doesn't sleep),
+# then waits until the live page reports this commit.
+# The page reads pre-built JSON made from csv/ by scripts/build_sample_data.py; if
+# csv/classified_returns.csv (the AI pipeline's output) is committed, its labels are used.
 # Needs: secret HF_TOKEN (write access to the Space)
-#        variable HF_SPACE      e.g. dhaga-fde/return-pulse
-#        variable HF_SPACE_URL  e.g. https://dhaga-fde-return-pulse.hf.space  (copy it from the Space page)
+#        variable HF_SPACE      e.g. r4mkum4r/return-pulse
+#        variable HF_SPACE_URL  the address the Space page shows, e.g. https://r4mkum4r-return-pulse.static.hf.space
 name: deploy
 on:
   push:
@@ -25,19 +28,24 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref || github.sha }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build the dashboard data from the CSVs
+        run: python scripts/build_sample_data.py
       - name: Assemble the Space
         run: |
           set -euo pipefail
           SHA=$(git rev-parse --short HEAD)
           mkdir -p /tmp/space
-          # Only what the app needs. The answer sheet and unused tables stay out of the public Space,
-          # and docs/ (which holds binary files such as the .pptx) stays out because Hugging Face
-          # rejects binary files that aren't stored with Git LFS.
-          rsync -a ./ /tmp/space/ \
-            --exclude .git --exclude .github --exclude tests --exclude sql --exclude var --exclude docs \
-            --exclude csv/eval_return_labels.csv --exclude csv/customers.csv --exclude csv/reviews.csv
+          # Only the page and its data. No server code, no answer sheet, no binary files.
+          cp -R frontend/index.html frontend/css frontend/js frontend/sample /tmp/space/
+          # Read the pre-built JSON, and stamp the commit so the check below can see it.
+          sed -i 's#<meta name="return-pulse-data" content="api">#<meta name="return-pulse-data" content="sample">#' /tmp/space/index.html
+          sed -i "s#<meta name=\"return-pulse-build\" content=\"local\">#<meta name=\"return-pulse-build\" content=\"$SHA\">#" /tmp/space/index.html
+          grep -q 'content="sample"' /tmp/space/index.html
+          grep -q "content=\"$SHA\"" /tmp/space/index.html
           cat deploy/space_header.md README.md > /tmp/space/README.md
-          echo "$SHA" > /tmp/space/build_sha.txt
           echo "SHA=$SHA" >> "$GITHUB_ENV"
       - name: Push to the Space
         env:
@@ -52,14 +60,15 @@ jobs:
           git add -A
           git commit -qm "Deploy $SHA"
           git push --force "https://user:${HF_TOKEN}@huggingface.co/spaces/${HF_SPACE}" main
-      - name: Wait for /health to report this commit
+      - name: Wait for the live page to show this commit
         env:
           HF_SPACE_URL: ${{ vars.HF_SPACE_URL }}
         run: |
           for i in $(seq 1 60); do
-            body=$(curl -fsS "$HF_SPACE_URL/health" || true)
-            if echo "$body" | grep -q "\"build\":\"$SHA\""; then echo "Live: $body"; exit 0; fi
+            page=$(curl -fsS "$HF_SPACE_URL/index.html" || true)
+            data=$(curl -fsS -o /dev/null -w "%{http_code}" "$HF_SPACE_URL/sample/summary.json" || true)
+            if echo "$page" | grep -q "content=\"$SHA\"" && [ "$data" = "200" ]; then echo "Live: $HF_SPACE_URL ($SHA)"; exit 0; fi
             sleep 10
           done
-          echo "The Space did not come up with $SHA within 10 minutes. Last answer: $body"
+          echo "The Space did not serve $SHA within 10 minutes (data: $data)."
           exit 1

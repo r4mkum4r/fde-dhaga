@@ -655,7 +655,7 @@ async function submitMark(card, row, { is_correct, corrected_issue = null }) {
 function drawerFootText() {
   const a = state.accuracy;
   const storage = state.summary && state.summary.meta.corrections_storage;
-  const where = DATA_MODE !== "api" ? "saved in this browser only (sample files)"
+  const where = DATA_MODE !== "api" ? "saved in this browser only"
     : storage === "temporary" ? "saved until the app restarts"
     : "saved to the corrections table";
   return a.reviewed

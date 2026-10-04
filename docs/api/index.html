@@ -164,7 +164,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
   &quot;meta&quot;: {
     &quot;data_mode&quot;: &quot;sample&quot;,
     &quot;synthetic&quot;: true,
-    &quot;generated_at&quot;: &quot;2026-10-04T04:46:41+00:00&quot;,
+    &quot;generated_at&quot;: &quot;2026-10-04T05:27:24+00:00&quot;,
     &quot;window&quot;: {
       &quot;from&quot;: &quot;2025-10-01&quot;,
       &quot;to&quot;: &quot;2026-09-30&quot;,
@@ -380,7 +380,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;model_issue_type&quot;: &quot;too_small&quot;,
       &quot;is_correct&quot;: false,
       &quot;corrected_issue&quot;: &quot;too_large&quot;,
-      &quot;corrected_at&quot;: &quot;2026-10-04 04:46:41&quot;
+      &quot;corrected_at&quot;: &quot;2026-10-04 05:27:24&quot;
     }
   },
   &quot;accuracy&quot;: {
@@ -494,7 +494,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
           <td class="t">number</td><td>From the settings table <span class="ex">e.g. <code>0.7</code></span></td></tr><tr><td><code class="f">min_returns_per_hotspot</code></td>
           <td class="t">integer</td><td>From the settings table <span class="ex">e.g. <code>20</code></span></td></tr><tr><td><code class="f">classifier_note</code><span class="opt">optional</span></td>
           <td class="t">string | null</td><td>Shown in the banner when set</td></tr><tr><td><code class="f">corrections_storage</code></td>
-          <td class="t"><code>permanent</code> | <code>temporary</code></td><td><code>temporary</code> on SQLite: corrections are lost when the app restarts</td></tr></tbody></table></div></section><section class='sch' id='schema-Window'><h3><code>Window</code></h3><div class="tbl"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
+          <td class="t"><code>permanent</code> | <code>temporary</code> | <code>browser</code></td><td><code>temporary</code> on SQLite: corrections are lost when the app restarts. <code>browser</code> on the static site: each viewer&#x27;s marks stay in their own browser</td></tr></tbody></table></div></section><section class='sch' id='schema-Window'><h3><code>Window</code></h3><div class="tbl"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
       <tbody><tr><td><code class="f">from</code></td>
           <td class="t">string</td><td>First day of the window, ISO date <span class="ex">e.g. <code>&quot;2025-10-01&quot;</code></span></td></tr><tr><td><code class="f">to</code></td>
           <td class="t">string</td><td>Last day of the window, ISO date <span class="ex">e.g. <code>&quot;2026-09-30&quot;</code></span></td></tr><tr><td><code class="f">label</code></td>

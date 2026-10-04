@@ -13,7 +13,7 @@ python3 scripts/build_sample_data.py              # only if frontend/sample/ is 
 python3 -m http.server 5173 --directory frontend
 ```
 
-Then open http://localhost:5173/?mode=sample. Opening `index.html` straight from disk won't work, because
+Then open http://localhost:5173/?mode=sample. This is exactly what the hosted static site serves. Opening `index.html` straight from disk won't work, because
 the browser blocks `fetch` on `file://` URLs.
 
 ## What's on the page

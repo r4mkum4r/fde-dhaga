@@ -120,6 +120,13 @@ class Database:
                     cols = reader.fieldnames
                     rows = [tuple(r[c] if r[c] != "" else None for c in cols) for r in reader]
                 conn.executemany(f"INSERT INTO {table} ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})", rows)
+            # The AI pipeline's output, if it has been committed (csv/classified_returns.csv).
+            from .analytics import CLASSIFIED_COLUMNS, read_classified_csv
+            classified = read_classified_csv(CSV_DIR / "classified_returns.csv")
+            if classified:
+                conn.executemany(
+                    f"INSERT INTO classified_returns ({','.join(CLASSIFIED_COLUMNS)}) VALUES ({','.join('?' * len(CLASSIFIED_COLUMNS))})",
+                    [tuple(r[c] for c in CLASSIFIED_COLUMNS) for r in classified.values()])
             conn.commit()
         finally:
             conn.close()

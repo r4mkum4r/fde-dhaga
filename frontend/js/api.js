@@ -1,9 +1,12 @@
 // Every call the dashboard makes to get data goes through this file.
-// "api": the FastAPI app (app/main.py) serves this page and the data. This is the default.
-// "sample": the JSON files in frontend/sample/, for frontend work without the API (?mode=sample).
+// "api": the FastAPI app (app/main.py) serves this page and the data.
+// "sample": the pre-built JSON files in frontend/sample/, made from the CSVs. The hosted static
+//           site uses this; the deploy sets it in index.html's <meta name="return-pulse-data">.
+// ?mode=api or ?mode=sample in the address overrides it.
 // The response shapes are in frontend/API_CONTRACT.md. Sample files follow them exactly.
 
-const DATA_MODE_DEFAULT = "api"; // "api" | "sample"
+const DATA_MODE_DEFAULT =
+  document.querySelector('meta[name="return-pulse-data"]')?.content || "api"; // "api" | "sample"
 const API_BASE = ""; // same origin as FastAPI; e.g. "http://localhost:8000" when served separately
 
 export const DATA_MODE = new URLSearchParams(location.search).get("mode") || DATA_MODE_DEFAULT;

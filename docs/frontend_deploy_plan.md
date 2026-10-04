@@ -57,27 +57,31 @@ is shown as **failed: "Not read by the AI yet"**, never guessed. No code change,
 
 Customer comments are untrusted: the frontend escapes all text before rendering.
 
-## 4. Deployment: one-time setup (do this on day 1, by hand)
+## 4. Deployment: a static Hugging Face Space (free, no server)
 
-1. **Make a GitHub repo for the group** and push this folder. The brief wants the discovery note dated before
-   the first code commit, so commit `docs/discovery_note.md` on its own first.
-2. **Create the Hugging Face Space** under a group organisation, not one person's account. Use the Docker SDK
-   and free CPU. Copy its URL (`https://<org>-<space>.hf.space`).
-3. **In the GitHub repo settings:**
-   - secret `HF_TOKEN`: a Hugging Face token with write access to the Space
-   - variable `HF_SPACE`: `<org>/<space>`
-   - variable `HF_SPACE_URL`: the URL from step 2
-4. **Optional but recommended:** a free Postgres (Neon or Supabase). Load `sql/01_schema.sql` and `sql/02_data.sql`,
-   then set `DATABASE_URL` as a **Space secret**. Without it, corrections reset whenever the Space restarts.
-   The page says so on screen.
-5. Merge to `main`. `deploy.yml` runs the tests, pushes to the Space (leaving out the answer sheet and unused
-   tables), and waits until `/health` reports the new commit. A broken deploy turns the GitHub job red.
+The hosted dashboard is a **static site**: the page plus JSON built from `csv/` by
+`scripts/build_sample_data.py`. No server runs, so nothing sleeps or costs money. If
+`csv/classified_returns.csv` (the AI pipeline's output) is committed, the page shows those labels.
+
+| | Static Space (hosted) | FastAPI (local, or a container host) |
+|---|---|---|
+| ✓/✗ marks | Kept in each viewer's own browser | Kept in the `corrections` table, shared |
+| API for other teams | Not on the hosted URL | Yes, at `/api/...` |
+| New data | Commit the CSV; the deploy rebuilds | Picked up when the pipeline writes |
+
+**One-time setup**
+1. Create the Space at huggingface.co/new-space: SDK **Static**, **Public** (the brief wants anyone with the
+   link to open it). Prefer a group organisation over one person's account.
+2. Create a Hugging Face token with **Write** access.
+3. In the GitHub repo, under Settings → Secrets and variables → Actions:
+   - secret `HF_TOKEN`: the token
+   - variable `HF_SPACE`: `<owner>/<space>`
+   - variable `HF_SPACE_URL`: the address the Space page shows for the running site
+4. Push to `main`. `deploy.yml` runs the tests, builds the data from the CSVs, publishes only the page and
+   its data (no server code, no answer sheet, no binary files), and waits until the live page shows the
+   new commit. A broken deploy turns the GitHub job red.
 
 **Rollback:** tag the last good commit `demo-ready`, then run the deploy workflow manually with `ref: demo-ready`.
-
-**Not yet verified on a live Space:** the workflows parse and the image's files run the app locally on port
-7860, but nobody has pushed to a real Space yet, and Docker wasn't running to build the image. Do the
-first deploy early so problems show up on day 1, not on pitch day.
 
 ## 5. Local cold start (target: under five minutes)
 
@@ -98,7 +102,7 @@ Tests: `pip install -r requirements-dev.txt && pytest -q`.
 | # | Task | Owner | Done when |
 |---|---|---|---|
 | 1 | First deploy (section 4) | Frontend/deploy | `/health` on the Space shows the commit SHA, and a second merge changes it without anyone touching the Space |
-| 2 | Postgres for corrections | Frontend/deploy | Mark a label on the Space, restart the Space, and the mark is still there |
+| 2 | Shared corrections (optional) | Frontend/deploy | Only if Neha's marks must be shared: host the FastAPI app with Postgres instead of the static site |
 | 3 | Pipeline writes `classified_returns` | Pipeline | The banner changes from "keyword match" to "Test data", and the unclear and failed counts are the pipeline's |
 | 4 | Accuracy and cost lines in the build note | Pipeline + frontend | Accuracy against `eval_return_labels`, and cost per run at Dhaga's 48,000 orders a week, with the arithmetic shown |
 | 5 | Agree the open questions with the client | Pitch owner | The "What we still need from Dhaga" list is answered, or presented as the ask |
@@ -113,8 +117,8 @@ Tests: `pip install -r requirements-dev.txt && pytest -q`.
 - [ ] Postgres free tier not paused (some providers pause idle databases)
 
 **60 minutes before**
-- [ ] Open the live URL on a phone and a laptop; `/health` says `"status":"ok"`
-- [ ] `DATABASE_URL=... python -m app.admin clear-corrections`, so the demo's mark is the first one
+- [ ] Open the live URL on a phone and a laptop
+- [ ] On the presenting laptop, open the live URL in a fresh private window, so the demo's ✓/✗ marks are the first ones
 - [ ] Screen recording ready on the presenting laptop
 
 **Rollback triggers, decided now**

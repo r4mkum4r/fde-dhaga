@@ -993,10 +993,11 @@
             "type": "string",
             "enum": [
               "permanent",
-              "temporary"
+              "temporary",
+              "browser"
             ],
             "title": "Corrections Storage",
-            "description": "`temporary` on SQLite: corrections are lost when the app restarts"
+            "description": "`temporary` on SQLite: corrections are lost when the app restarts. `browser` on the static site: each viewer's marks stay in their own browser"
           }
         },
         "additionalProperties": false,

@@ -184,3 +184,46 @@ def test_published_schema_covers_every_endpoint(client):
 def test_browsers_always_check_for_a_new_version(client):
     for path in ["/", "/js/app.js", "/css/styles.css", "/api/summary"]:
         assert client.get(path).headers["cache-control"] == "no-cache", path
+
+
+# ---------- the AI pipeline's CSV feeds both the static site and the API ----------
+def _csv_dir_with_labels(tmp_path):
+    import shutil
+    d = tmp_path / "csv"
+    shutil.copytree(ROOT / "csv", d)
+    other = [r for r in json.loads((ROOT / "frontend/sample/returns.json").read_text())["returns"]
+             if r["reason_dropdown"] == "Other"]
+    rid = other[0]["return_id"]
+    (d / "classified_returns.csv").write_text(
+        "return_id,issue_type,confidence,evidence_phrase,source,model_name\n"
+        f"{rid},quality,NA,,cheap_model,test-model\n", encoding="utf-8")
+    return d, rid
+
+
+def test_static_build_uses_pipeline_csv(tmp_path):
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("build", ROOT / "scripts/build_sample_data.py")
+    build = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(build)
+    csv_dir, rid = _csv_dir_with_labels(tmp_path)
+    build.main(csv_dir=csv_dir, out=tmp_path / "out")
+    summary = json.loads((tmp_path / "out/summary.json").read_text())
+    assert summary["meta"]["data_mode"] == "live"
+    assert summary["meta"]["classifier_note"] is None
+    rows = {r["return_id"]: r for r in json.loads((tmp_path / "out/returns.json").read_text())["returns"]}
+    assert rows[rid]["issue_type"] == "quality"
+    assert rows[rid]["confidence"] is None          # "NA" in the CSV, never made up
+    skipped = [r for r in rows.values() if r["reason_dropdown"] == "Other" and r["return_id"] != rid]
+    assert all(r["issue_type"] == "failed" and r["error"] == "Not read by the AI yet" for r in skipped)
+
+
+def test_api_loads_pipeline_csv(tmp_path, monkeypatch):
+    from app import db as dbmod, main
+    csv_dir, rid = _csv_dir_with_labels(tmp_path)
+    monkeypatch.setattr(dbmod, "CSV_DIR", csv_dir)
+    monkeypatch.setattr(main, "db", dbmod.Database(url="", sqlite_path=tmp_path / "t.sqlite"))
+    main._cache.update(version=None, value=None)
+    with TestClient(main.app) as c:
+        assert c.get("/api/summary").json()["meta"]["data_mode"] == "live"
+        rows = {r["return_id"]: r for r in c.get("/api/returns").json()["returns"]}
+        assert rows[rid]["issue_type"] == "quality"
