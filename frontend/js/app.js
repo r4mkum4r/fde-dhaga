@@ -11,12 +11,13 @@ const NOT_CLASSIFIED = ["unclear", "failed"];
 const SOURCE_LABELS = {
   dropdown: "customer picked this in the app",
   gate: "comment too short to read",
-  sample_stub: "read automatically (sample stand-in)",
-  sample_stub_low_conf: "read automatically, unsure (sample stand-in)",
-  cheap_model: "read automatically",
-  strong_model: "read automatically, then double-checked",
+  sample_stub: "sorted by keyword match (temporary, before the AI reading)",
+  sample_stub_low_conf: "sorted by keyword match, unsure (temporary, before the AI reading)",
+  cheap_model: "read by AI",
+  strong_model: "read by AI, then double-checked by a second AI",
+  pipeline: "not read yet",
 };
-// Plain-language sentences for "What to fix first". Suggestions are the FDE team's; Neha decides.
+// Plain-language sentences for "What to fix first". Suggestions only; Neha decides.
 const ISSUE_PHRASE = {
   too_small: "run small", too_large: "run large", colour_mismatch: "don't match their photos",
   quality: "draw quality complaints", damaged: "arrive damaged", wrong_item: "get the wrong item sent",
@@ -40,8 +41,10 @@ const PLURAL = (sub) => {
 // Only these are a location's problem; fit, colour and quality belong to the product.
 const LOCATION_ISSUES = ["damaged", "delivery_late", "wrong_item"];
 const tag = (kind, title) => {
-  const text = { brief: "Brief", calc: "Calc", est: "Estimate", sample: "Sample" }[kind];
-  return `<span class="src ${kind}" title="${esc(title || "")}">${text}</span>`;
+  // A brief tag shows its section (e.g. "Brief §05") so the source is readable without hovering.
+  const section = kind === "brief" && title ? (title.match(/§\d+/) || [""])[0] : "";
+  const text = { brief: "Brief", calc: "Calc", est: "Estimate", sample: "Sample" }[kind] + (section ? ` ${section}` : "");
+  return `<span class="src ${kind}" title="${esc(title || "")}">${esc(text)}</span>`;
 };
 const TABLE_PREVIEW = 10;
 
@@ -114,7 +117,7 @@ function renderFixFirst() {
       return `<li>
         <div class="headline">${esc(l.city)}: parcels ${esc(ISSUE_PHRASE[l.top_issue] || labelOf(l.top_issue).toLowerCase())} far more often than elsewhere</div>
         <div class="evidence">${tag("sample")}${pct(l.top_issue_share)} of ${int(l.returns)} returns from ${esc(l.city)} are ${esc(labelOf(l.top_issue).toLowerCase())}, against ${pct(l.baseline_share)} across all returns.</div>
-        <div class="next"><span><strong>FDE team suggests:</strong> ${esc(NEXT_STEP[l.top_issue] || "Read the comments")}.</span>
+        <div class="next"><span><strong>Suggestions:</strong> ${esc(NEXT_STEP[l.top_issue] || "Read the comments")}.</span>
           <span class="who">Not a catalogue fix: share with Faizan (Supply Chain).</span>
           <button class="link" data-fix="${i}">Read the comments</button></div>
       </li>`;
@@ -128,7 +131,7 @@ function renderFixFirst() {
     return `<li>
       <div class="headline">${esc(first.vendor_name)} (${esc(first.vendor_id)}): ${esc(products)} ${esc(ISSUE_PHRASE[it.issue] || labelOf(it.issue).toLowerCase())}${esc(sizeText)}</div>
       <div class="evidence">${tag("sample")}${ev} are ${esc(labelOf(it.issue).toLowerCase())}, against ${pct(first.baseline_share)} across all returns.</div>
-      <div class="next"><span><strong>FDE team suggests:</strong> ${esc(NEXT_STEP[it.issue] || "Read the comments")}.</span>
+      <div class="next"><span><strong>Suggestions:</strong> ${esc(NEXT_STEP[it.issue] || "Read the comments")}.</span>
         <span class="who">Neha decides.</span>
         <button class="link" data-fix="${i}">Read the comments</button></div>
     </li>`;
@@ -155,11 +158,11 @@ function renderScale() {
   const value = returns * BRIEF.avgOrderValue.value;
   // Share of "Other" comments that got a reason in this data (unclear and failed only come from "Other").
   const readRate = h.other_comments ? 1 - (h.unclear + h.failed) / h.other_comments : null;
-  const rateSource = DATA_MODE === "sample" ? "the sample stand-in" : "the live pipeline";
+  const rateSource = state.summary.meta.data_mode === "sample" ? "the keyword match" : "the AI reading";
   const crore = (n) => `₹${(n / 1e7).toFixed(2)} crore`;
 
   const cells = [
-    { k: "Orders a week", v: int(orders), how: `${tag("brief", BRIEF.ordersPerWeek.cite)}${esc(BRIEF.ordersPerWeek.cite)}` },
+    { k: "Orders a week", v: int(orders), how: `${tag("brief", BRIEF.ordersPerWeek.cite)}given by Dhaga` },
     { k: "Returns a week", v: int(Math.round(returns)),
       how: `${tag("calc")}${int(orders)} orders × ${pct(BRIEF.returnRate.value)} return rate ${tag("brief", BRIEF.returnRate.cite)}` },
     { k: "“Other” comments a week, unread today", v: int(Math.round(other)), warn: true,
@@ -177,6 +180,9 @@ function renderScale() {
   }
   $("scale").innerHTML = cells.map((c) => `<div class="cell ${c.warn ? "warn" : ""}">
     <div class="k">${esc(c.k)}</div><div class="v">${c.v}</div><div class="how">${c.how}</div></div>`).join("");
+  const cites = [BRIEF.ordersPerWeek, BRIEF.returnRate, BRIEF.otherShare, BRIEF.avgOrderValue, BRIEF.nehaReadsPerSitting]
+    .map((b) => b.cite);
+  $("scale-sources").innerHTML = [...new Set(cites)].map((c) => `<li>${esc(c)}</li>`).join("");
 }
 
 function renderOpenQuestions() {
@@ -490,7 +496,7 @@ function openHotspotDrawer(h) {
 function openIssueDrawer(issue) {
   const sub = issue === "unclear"
     ? "Comments where no reason could be read. They are never guessed into a reason."
-    : "Comments the classifier could not process. They need a re-run or a human read.";
+    : "Comments the AI couldn't process. They need another run, or a person to read them.";
   openDrawer({ title: `${labelOf(issue)} returns`, sub, filters: { issue_type: issue }, focusIssue: issue });
 }
 
@@ -536,7 +542,7 @@ function drawerFilterDefs() {
     defs.push({ key: "comments", label: "All comments", test: (r) => r.source !== "dropdown" });
     defs.push({ key: "unclear", label: "Unclear", test: (r) => r.issue_type === "unclear" });
     defs.push({ key: "failed", label: "Failed", test: (r) => r.issue_type === "failed" });
-    defs.push({ key: "dropdown", label: "Dropdown picks", test: (r) => r.source === "dropdown" });
+    defs.push({ key: "dropdown", label: "Picked in the app", test: (r) => r.source === "dropdown" });
   }
   return defs.map((d) => ({ ...d, count: (d.key === "comments" ? comments : rows).filter(d.test).length }));
 }
@@ -573,9 +579,10 @@ function returnCard(r) {
     ? `<div class="comment" lang="hi-Latn">${highlight(r.comment, r.evidence_phrase)}</div>`
     : `<div class="comment empty">${r.source === "dropdown" ? "No comment: reason picked from the dropdown." : "Empty comment."}</div>`;
   const verdict = judgeable ? `
-    <div class="verdict" role="group" aria-label="Is this label right?">
-      <button class="yes" data-v="yes" aria-pressed="${mark?.is_correct === true}" title="Label is right" aria-label="Label is right">✓</button>
-      <button class="no" data-v="no" aria-pressed="${mark?.is_correct === false}" title="Label is wrong" aria-label="Label is wrong">✗</button>
+    <div class="verdict" role="group" aria-labelledby="q-${esc(r.return_id)}">
+      <span class="ask" id="q-${esc(r.return_id)}">Is “${esc(labelOf(r.issue_type))}” right?</span>
+      <button class="yes" data-v="yes" aria-pressed="${mark?.is_correct === true}">✓ Right</button>
+      <button class="no" data-v="no" aria-pressed="${mark?.is_correct === false}">✗ Wrong</button>
       ${mark?.is_correct === false ? correctionSelect(r, mark) : ""}
       <span class="saved" aria-live="polite"></span>
     </div>` : "";
@@ -593,7 +600,7 @@ function correctionSelect(r, mark) {
   const opts = Object.entries(ISSUE_LABELS).filter(([k]) => k !== "failed" && k !== r.issue_type)
     .map(([k, v]) => `<option value="${k}" ${mark?.corrected_issue === k ? "selected" : ""}>${esc(v)}</option>`).join("");
   return `<select class="control fix" aria-label="What should the label be?">
-    <option value="">Should be… (optional)</option>${opts}</select>`;
+    <option value="">What should it be? (optional)</option>${opts}</select>`;
 }
 
 const PAGE = 60;
@@ -649,11 +656,11 @@ function drawerFootText() {
   const a = state.accuracy;
   const storage = state.summary && state.summary.meta.corrections_storage;
   const where = DATA_MODE !== "api" ? "saved in this browser only (sample files)"
-    : storage === "temporary" ? "saved until the app restarts (no permanent database connected)"
+    : storage === "temporary" ? "saved until the app restarts"
     : "saved to the corrections table";
   return a.reviewed
     ? `Your checks: <strong>${int(a.correct)} of ${int(a.reviewed)}</strong> labels right (${pct(a.correct / a.reviewed)}) · ${where}`
-    : `Mark each label ✓ or ✗. Your marks become the accuracy number · ${where}`;
+    : `For each comment, say whether the label is right. Your answers become the accuracy number · ${where}`;
 }
 
 // ---------- boot ----------
@@ -692,7 +699,7 @@ async function boot() {
       : `The sample files are missing. Run <code>python3 scripts/build_sample_data.py</code> and reload.`;
     $("page-error").innerHTML = errorBox("The dashboard couldn't load its data.", e) + `<p>${hint}</p>`;
     $("content").hidden = true;
-    $("footer").textContent = `Data mode: ${DATA_MODE}`;
+    $("footer").textContent = "";
     return;
   }
 
@@ -704,11 +711,11 @@ async function boot() {
     $("sample-banner").hidden = false;
   } else if (m.synthetic) {
     $("banner-title").textContent = "Test data.";
-    $("sample-note").textContent = "Labels come from the live pipeline, but the orders and comments are synthetic.";
+    $("sample-note").textContent = "Labels come from the AI reading, but the orders and comments are synthetic.";
     $("sample-banner").hidden = false;
   }
-  $("footer").textContent = `Data mode: ${DATA_MODE} · generated ${new Date(m.generated_at).toLocaleString("en-IN")} · `
-    + `confidence threshold ${m.confidence_threshold} · hotspots need ${m.min_returns_per_hotspot}+ returns`;
+  $("footer").textContent = `Covers ${m.window.label} · numbers worked out ${new Date(m.generated_at).toLocaleString("en-IN")} · `
+    + `a problem spot needs at least ${m.min_returns_per_hotspot} returns`;
 
   renderFixFirst();
   renderScale();

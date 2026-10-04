@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Return Pulse API",
-    "description": "Powers the Dhaga & Co. returns dashboard (Neha, Category Head). Built by the FDE team. All data is synthetic. Every count covers the latest twelve whole months in the data.",
+    "description": "Powers the Dhaga & Co. returns dashboard (Neha, Category Head). All data is synthetic. Every count covers the latest twelve whole months in the data.",
     "version": "1.0.0"
   },
   "paths": {

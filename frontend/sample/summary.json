@@ -2,7 +2,7 @@
  "meta": {
   "data_mode": "sample",
   "synthetic": true,
-  "generated_at": "2026-10-03T10:59:10+00:00",
+  "generated_at": "2026-10-04T03:48:45+00:00",
   "window": {
    "from": "2025-10-01",
    "to": "2026-09-30",
@@ -10,7 +10,7 @@
   },
   "confidence_threshold": 0.7,
   "min_returns_per_hotspot": 20,
-  "classifier_note": "Sample mode: 'Other' comments labelled by a keyword stand-in, not the real models."
+  "classifier_note": "The AI reading hasn't run yet, so 'Other' comments are sorted by a simple keyword match. Expect more mistakes than the final version."
  },
  "headline": {
   "returns": 3675,

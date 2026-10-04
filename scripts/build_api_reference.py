@@ -339,7 +339,7 @@ footer {{ color: var(--muted); font-size: 13px; margin-top: 40px; }}
 
   <main>
     <header class="top">
-      <div class="eyebrow">Dhaga &amp; Co. · Return Pulse · FDE team</div>
+      <div class="eyebrow">Dhaga &amp; Co. · Return Pulse</div>
       <h1>Return Pulse API</h1>
       <p class="intro">Every API behind the returns dashboard Neha (Category Head) uses to see why products come back.
         It reads every return, including the free-text “Other” comments, and shows which vendor, product type, size and
@@ -397,9 +397,9 @@ footer {{ color: var(--muted); font-size: 13px; margin-top: 40px; }}
     <ol class="rules">
       <li><strong>Write rows only for “Other” returns.</strong> Returns with a dropdown reason are labelled by code and never need a model.</li>
       <li><strong>Cover every “Other” return in the window.</strong> Once the table has any rows, an “Other” return without one is
-        shown as <code>failed</code>: “Not analysed by the pipeline yet”. Gaps are visible, not hidden.</li>
+        shown as <code>failed</code>: “Not read by the AI yet”. Gaps are visible, not hidden.</li>
       <li><strong>Unknown values fail visibly.</strong> An <code>issue_type</code> outside the list, for example <code>fabric_quality</code>,
-        appears as <code>failed</code> with the message “The pipeline wrote an unknown issue type”.</li>
+        appears as <code>failed</code> with the message “The AI returned an unknown issue type”.</li>
       <li><strong>Never put <code>eval_return_labels</code> in a prompt.</strong> It is the answer sheet for measuring accuracy. The app doesn't load it and it isn't deployed.</li>
     </ol>
     <p>What a labelled comment looks like on screen (a real row; today it comes from the keyword stand-in):</p>

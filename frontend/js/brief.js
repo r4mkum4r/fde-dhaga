@@ -10,7 +10,7 @@ export const BRIEF = {
   nehaReadsPerSitting: { text: "a few hundred at a time", cite: "Brief §05 Neha: “I can only read a few hundred at a time”" },
 };
 
-// Questions the FDE team still needs the client to answer. Shown on the page, never guessed.
+// Questions we still need the client to answer. Shown on the page, never guessed.
 export const OPEN_QUESTIONS = [
   { q: "What return accuracy is good enough to act on a vendor?", owner: "Neha (Category Head)" },
   { q: "What does one customer return cost in reverse logistics?", owner: "Faizan (Head of Supply Chain)" },

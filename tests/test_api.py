@@ -128,7 +128,7 @@ def test_pipeline_labels_replace_the_stand_in(client):
     assert rows[labelled]["evidence_phrase"] is None  # not a substring, so not highlighted
     # A comment the pipeline didn't label is shown as failed with a reason, never guessed.
     assert rows[skipped]["issue_type"] == "failed"
-    assert rows[skipped]["error"] == "Not analysed by the pipeline yet"
+    assert rows[skipped]["error"] == "Not read by the AI yet"
 
 
 # ---------- failing visibly ----------
@@ -179,3 +179,8 @@ def test_published_schema_covers_every_endpoint(client):
     for path, ops in spec["paths"].items():
         for op in ops.values():
             assert "$ref" in str(op["responses"]["200"]), f"{path} has no response schema"
+
+
+def test_browsers_always_check_for_a_new_version(client):
+    for path in ["/", "/js/app.js", "/css/styles.css", "/api/summary"]:
+        assert client.get(path).headers["cache-control"] == "no-cache", path

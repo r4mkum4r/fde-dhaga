@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 app = FastAPI(
     title="Return Pulse API",
     version="1.0.0",
-    description="Powers the Dhaga & Co. returns dashboard (Neha, Category Head). Built by the FDE team. "
+    description="Powers the Dhaga & Co. returns dashboard (Neha, Category Head). "
                 "All data is synthetic. Every count covers the latest twelve whole months in the data.",
     docs_url="/api/docs", openapi_url="/api/openapi.json",
 )
@@ -33,6 +33,15 @@ db = Database()
 
 # "synthetic" while the database holds the generated data; set DATA_LABEL=real for real data.
 DATA_LABEL = os.environ.get("DATA_LABEL", "synthetic")
+
+
+@app.middleware("http")
+async def revalidate(request: Request, call_next):
+    """Browsers must check for a newer copy every time, so a deploy shows up on a normal reload.
+    Unchanged files still come back as 304 Not Modified."""
+    response = await call_next(request)
+    response.headers.setdefault("Cache-Control", "no-cache")
+    return response
 
 
 @app.exception_handler(DatabaseError)
@@ -82,8 +91,7 @@ def meta(s):
                    "label": s["wins"]["this"][2]},
         "confidence_threshold": s["settings"]["confidence_threshold"],
         "min_returns_per_hotspot": s["settings"]["min_returns_per_hotspot"],
-        "classifier_note": ("The pipeline hasn't labelled any returns yet, so 'Other' comments are labelled "
-                            "by a keyword stand-in, not the real models.") if stub else None,
+        "classifier_note": ("The AI reading hasn't run yet, so 'Other' comments are sorted by a simple keyword match. Expect more mistakes than the final version.") if stub else None,
         "corrections_storage": "permanent" if db.corrections_permanent else "temporary",
     }
 

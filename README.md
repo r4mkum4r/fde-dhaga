@@ -1,6 +1,6 @@
 # Return Pulse: why Dhaga & Co. products come back
 
-An internal dashboard for Neha (Category Head) built by the FDE team. It reads every return, including the
+An internal dashboard for Neha (Category Head). It reads every return, including the
 free-text "Other" comments, and shows what to fix first: which vendor, product type, size and city, with the
 customers' own words as proof. **All data in this repo is synthetic.**
 

@@ -20,7 +20,7 @@ the browser blocks `fetch` on `file://` URLs.
 
 | Part | Answers | Click it |
 |---|---|---|
-| What to fix first | What should Neha act on? Plain sentences built from the ranked problem spots, each with the FDE team's suggested next step (Neha decides) | "Read the comments" opens the customer comments |
+| What to fix first | What should Neha act on? Plain sentences built from the ranked problem spots, each with a suggested next step (Neha decides) | "Read the comments" opens the customer comments |
 | At Dhaga's scale | The same problem in the brief's numbers: 14,880 returns and 6,547 unread "Other" comments a week, with the arithmetic shown | Hover a tag to see the citation |
 | Headline tiles | How many returns? How many have a known reason now? How many couldn't be classified? How accurate are the labels? | "Read them" / "See which" opens the unclear or failed comments |
 | Return drivers | What is causing the most returns? Unclear and failed are always shown as their own bars | A reason switches the trend to it; unclear/failed opens those comments |

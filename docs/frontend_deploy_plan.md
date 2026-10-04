@@ -39,7 +39,7 @@ Dockerfile, .github/workflows/{ci,deploy,keepalive}.yml, deploy/space_header.md,
 **The pipeline handover.** The pipeline writes rows to `classified_returns` (schema in `sql/01_schema.sql`).
 When the table is empty, the API labels "Other" comments with the keyword stand-in and the page says so.
 Once it has rows, the API uses them, recomputes, and the banner changes. A comment the pipeline skipped
-is shown as **failed: "Not analysed by the pipeline yet"**, never guessed. No code change, no restart.
+is shown as **failed: "Not read by the AI yet"**, never guessed. No code change, no restart.
 
 ## 3. Failure states (all visible on screen)
 
@@ -47,8 +47,8 @@ is shown as **failed: "Not analysed by the pipeline yet"**, never guessed. No co
 |---|---|---|
 | Database unreachable | Red box: "Can't reach the database at host:port/db". Numbers hidden, never stale. Password never shown | `test_database_down_says_so` |
 | No returns in the database | "The database has no returns yet. Load the data, then reload this page." | Code path in `main.state()` |
-| Pipeline hasn't run | Yellow banner: comments labelled by a keyword stand-in, not the real models | `test_summary_matches_sample_files` |
-| Pipeline skipped a comment | Card marked failed: "Not analysed by the pipeline yet" | `test_pipeline_labels_replace_the_stand_in` |
+| Pipeline hasn't run | Yellow banner: "Other" comments are sorted by a simple keyword match until the AI reading runs | `test_summary_matches_sample_files` |
+| Pipeline skipped a comment | Card marked failed: "Not read by the AI yet" | `test_pipeline_labels_replace_the_stand_in` |
 | Comment unclear / failed | Own tile, own bars, own list; cards show the reason | `test_returns_filters_line_up_with_summary` |
 | Evidence phrase not in the comment | Comment shown without a highlight | `test_pipeline_labels_replace_the_stand_in`, `test_evidence_is_always_inside_the_comment` |
 | Correction can't save | Card says "Not saved: {reason}" | Browser check; API refusals in `test_bad_corrections_are_refused` |
@@ -99,7 +99,7 @@ Tests: `pip install -r requirements-dev.txt && pytest -q`.
 |---|---|---|---|
 | 1 | First deploy (section 4) | Frontend/deploy | `/health` on the Space shows the commit SHA, and a second merge changes it without anyone touching the Space |
 | 2 | Postgres for corrections | Frontend/deploy | Mark a label on the Space, restart the Space, and the mark is still there |
-| 3 | Pipeline writes `classified_returns` | Pipeline | The banner changes from "keyword stand-in" to "Test data", and the unclear and failed counts are the pipeline's |
+| 3 | Pipeline writes `classified_returns` | Pipeline | The banner changes from "keyword match" to "Test data", and the unclear and failed counts are the pipeline's |
 | 4 | Accuracy and cost lines in the build note | Pipeline + frontend | Accuracy against `eval_return_labels`, and cost per run at Dhaga's 48,000 orders a week, with the arithmetic shown |
 | 5 | Agree the open questions with the client | Pitch owner | The "What we still need from Dhaga" list is answered, or presented as the ask |
 | 6 | Timed cold start and a never-seen device | Anyone but the builder | Under five minutes; the live URL works on a phone nobody in the group has used |

@@ -70,7 +70,7 @@ def stub_classify(return_id, text, confidence_threshold=DEFAULT_SETTINGS["confid
     if len(letters) < 3:
         return "unclear", None, None, "gate", "No usable words in the comment"
     if stable_fraction("fail" + return_id) < 0.015:
-        return "failed", None, None, "sample_stub", "Simulated: output failed schema validation twice"
+        return "failed", None, None, "sample_stub", "Simulated failure: the AI's answer was unreadable twice"
 
     low = clean.lower()
     hits = []
@@ -119,12 +119,12 @@ def label_rows(enriched, classified=None, settings=DEFAULT_SETTINGS):
             conf = float(c["confidence"]) if c.get("confidence") is not None else None
             evidence, source, model = c.get("evidence_phrase"), c["source"], c.get("model_name")
             if c["issue_type"] not in ISSUES:
-                error = f"The pipeline wrote an unknown issue type '{c['issue_type']}'"
+                error = f"The AI returned an unknown issue type '{c['issue_type']}'"
             else:
-                error = "The pipeline could not read this comment" if issue == "failed" else None
+                error = "The AI couldn't read this comment" if issue == "failed" else None
         else:
             # Shown on screen as failed, never guessed: the pipeline skipped this one.
-            issue, conf, evidence, source, model, error = "failed", None, None, "pipeline", None, "Not analysed by the pipeline yet"
+            issue, conf, evidence, source, model, error = "failed", None, None, "pipeline", None, "Not read by the AI yet"
         # Highlight only if the phrase really is in the comment.
         if evidence and r["other_text"] and evidence.lower() not in r["other_text"].lower():
             evidence = None

@@ -60,7 +60,7 @@ def main():
         "window": {"from": wins["this"][0].isoformat(), "to": wins["this"][1].isoformat(), "label": wins["this"][2]},
         "confidence_threshold": settings["confidence_threshold"],
         "min_returns_per_hotspot": settings["min_returns_per_hotspot"],
-        "classifier_note": "Sample mode: 'Other' comments labelled by a keyword stand-in, not the real models.",
+        "classifier_note": "The AI reading hasn't run yet, so 'Other' comments are sorted by a simple keyword match. Expect more mistakes than the final version.",
     }
     summary = {"meta": meta, **analytics.summarize(current, wins["this"], settings)}
     trend = {k: analytics.trend(rows, wins, k) for k in analytics.ISSUES}
