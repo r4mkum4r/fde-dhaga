@@ -63,11 +63,15 @@ def stable_fraction(key):
     return int(hashlib.sha1(key.encode()).hexdigest()[:8], 16) / 0xFFFFFFFF
 
 
+def no_usable_words(text):
+    """The code gate: blank, punctuation-only or emoji-only comments carry no reason to read."""
+    return len(re.sub(r"[^A-Za-zऀ-ॿ]", "", (text or "").strip())) < 3
+
+
 def stub_classify(return_id, text, confidence_threshold=DEFAULT_SETTINGS["confidence_threshold"]):
     """Returns (issue_type, confidence, evidence_phrase, source, error)."""
     clean = (text or "").strip()
-    letters = re.sub(r"[^A-Za-zऀ-ॿ]", "", clean)
-    if len(letters) < 3:
+    if no_usable_words(clean):
         return "unclear", None, None, "gate", "No usable words in the comment"
     if stable_fraction("fail" + return_id) < 0.015:
         return "failed", None, None, "sample_stub", "Simulated failure: the AI's answer was unreadable twice"
@@ -104,6 +108,7 @@ def label_rows(enriched, classified=None, settings=DEFAULT_SETTINGS):
     out = []
     for r in enriched:
         rid = r["return_id"]
+        explanation = None
         dropdown = r["reason_dropdown"]
         if dropdown != "Other":
             issue, conf, evidence, source, model, error = DROPDOWN_TO_ISSUE.get(dropdown, "unclear"), 1.0, None, "dropdown", None, None
@@ -122,6 +127,10 @@ def label_rows(enriched, classified=None, settings=DEFAULT_SETTINGS):
                 error = f"The AI returned an unknown issue type '{c['issue_type']}'"
             else:
                 error = "The AI couldn't read this comment" if issue == "failed" else None
+            explanation = c.get("explanation")
+        elif no_usable_words(r["other_text"]):
+            # The pipeline skips blank comments on purpose; the code gate says why.
+            issue, conf, evidence, source, model, error = "unclear", None, None, "gate", None, "No usable words in the comment"
         else:
             # Shown on screen as failed, never guessed: the pipeline skipped this one.
             issue, conf, evidence, source, model, error = "failed", None, None, "pipeline", None, "Not read by the AI yet"
@@ -148,6 +157,7 @@ def label_rows(enriched, classified=None, settings=DEFAULT_SETTINGS):
             "source": source,
             "model_name": model,
             "error": error,
+            "explanation": explanation,
         })
     return out, ("sample_stub" if use_stub else "pipeline")
 
@@ -311,32 +321,55 @@ def trend(all_rows, wins, issue):
     }
 
 
-CLASSIFIED_COLUMNS = ("return_id", "issue_type", "confidence", "evidence_phrase", "source", "model_name")
+CLASSIFIED_COLUMNS = ("return_id", "issue_type", "confidence", "evidence_phrase", "source", "model_name", "explanation")
+RAW_CLASSIFIER_FILE = "classified_returns_with_dropdown.csv"
+
+
+def _blank(v):
+    v = (v or "").strip()
+    return None if v.lower() in ("", "na", "nan", "none", "null") else v
 
 
 def read_classified_csv(path):
     """
-    The pipeline's output (csv/classified_returns.csv) as {return_id: row}, or None if the file
-    doesn't exist. Blank, NA and nan become None. A missing column is an error with a plain message.
+    The AI pipeline's labels as {return_id: row}, or None if there are none.
+
+    Reads csv/classified_returns.csv (columns as in CLASSIFIED_COLUMNS). If that file doesn't exist,
+    reads the classifier's raw output from the same folder (classified_returns_with_dropdown.csv:
+    return_id, other_text, issue, explanation, status, model). The raw output has no confidence or
+    evidence phrase; those stay None rather than being made up.
     """
     import csv
     from pathlib import Path
     path = Path(path)
-    if not path.exists():
-        return None
-    with open(path, newline="", encoding="utf-8") as f:
-        reader = csv.DictReader(f)
-        missing = [c for c in ("return_id", "issue_type", "source") if c not in (reader.fieldnames or [])]
-        if missing:
-            raise ValueError(f"{path.name} is missing columns: {', '.join(missing)}")
-        out = {}
-        for row in reader:
-            clean = {}
-            for c in CLASSIFIED_COLUMNS:
-                v = (row.get(c) or "").strip()
-                clean[c] = None if v.lower() in ("", "na", "nan", "none", "null") else v
-            out[clean["return_id"]] = clean
-    return out
+    raw = path.with_name(RAW_CLASSIFIER_FILE)
+    if path.exists():
+        with open(path, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            missing = [c for c in ("return_id", "issue_type", "source") if c not in (reader.fieldnames or [])]
+            if missing:
+                raise ValueError(f"{path.name} is missing columns: {', '.join(missing)}")
+            return {r["return_id"].strip(): {c: _blank(r.get(c)) for c in CLASSIFIED_COLUMNS} for r in reader}
+    if raw.exists():
+        with open(raw, newline="", encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            missing = [c for c in ("return_id", "issue") if c not in (reader.fieldnames or [])]
+            if missing:
+                raise ValueError(f"{raw.name} is missing columns: {', '.join(missing)}")
+            out = {}
+            for r in reader:
+                ok = (_blank(r.get("status")) or "success").lower() == "success"
+                out[r["return_id"].strip()] = {
+                    "return_id": r["return_id"].strip(),
+                    "issue_type": _blank(r.get("issue")) if ok else "failed",
+                    "confidence": None,
+                    "evidence_phrase": None,
+                    "source": "llm",
+                    "model_name": _blank(r.get("model")),
+                    "explanation": _blank(r.get("explanation")),
+                }
+            return out
+    return None
 
 
 RETURN_FILTERS = ("vendor_id", "subcategory", "city", "issue_type")

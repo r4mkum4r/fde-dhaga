@@ -1,8 +1,8 @@
 {
  "meta": {
-  "data_mode": "sample",
+  "data_mode": "live",
   "synthetic": true,
-  "generated_at": "2026-10-04T05:25:57+00:00",
+  "generated_at": "2026-10-04T07:52:29+00:00",
   "window": {
    "from": "2025-10-01",
    "to": "2026-09-30",
@@ -10,77 +10,77 @@
   },
   "confidence_threshold": 0.7,
   "min_returns_per_hotspot": 20,
-  "classifier_note": "The AI reading hasn't run yet, so 'Other' comments are sorted by a simple keyword match. Expect more mistakes than the final version.",
+  "classifier_note": null,
   "corrections_storage": "browser"
  },
  "headline": {
   "returns": 3675,
   "known_reason_before": 0.5529,
-  "known_reason_after": 0.8629,
+  "known_reason_after": 0.9034,
   "other_comments": 1643,
-  "unclear": 476,
-  "failed": 28
+  "unclear": 355,
+  "failed": 0
  },
  "drivers": [
   {
    "issue": "too_small",
    "label": "Too small",
-   "count": 880,
-   "share": 0.2395
+   "count": 922,
+   "share": 0.2509
   },
   {
    "issue": "too_large",
    "label": "Too large",
-   "count": 451,
-   "share": 0.1227
+   "count": 468,
+   "share": 0.1273
   },
   {
    "issue": "colour_mismatch",
    "label": "Colour mismatch",
-   "count": 460,
-   "share": 0.1252
+   "count": 468,
+   "share": 0.1273
   },
   {
    "issue": "quality",
    "label": "Quality",
-   "count": 515,
-   "share": 0.1401
+   "count": 536,
+   "share": 0.1459
   },
   {
    "issue": "damaged",
    "label": "Damaged",
-   "count": 241,
-   "share": 0.0656
-  },
-  {
-   "issue": "wrong_item",
-   "label": "Wrong item",
-   "count": 147,
-   "share": 0.04
-  },
-  {
-   "issue": "changed_mind",
-   "label": "Changed mind",
    "count": 303,
    "share": 0.0824
   },
   {
+   "issue": "wrong_item",
+   "label": "Wrong item",
+   "count": 161,
+   "share": 0.0438
+  },
+  {
+   "issue": "changed_mind",
+   "label": "Changed mind",
+   "count": 315,
+   "share": 0.0857
+  },
+  {
    "issue": "delivery_late",
    "label": "Delivery late",
-   "count": 174,
-   "share": 0.0473
+   "count": 147,
+   "share": 0.04
   },
   {
    "issue": "unclear",
    "label": "Unclear",
-   "count": 476,
-   "share": 0.1295
+   "count": 355,
+   "share": 0.0966
   },
   {
    "issue": "failed",
    "label": "Failed",
-   "count": 28,
-   "share": 0.0076
+   "count": 0,
+   "share": 0.0
   }
  ],
  "hotspots": [
@@ -91,20 +91,20 @@
    "subcategory": "Kurti",
    "size": "L, M",
    "size_breakdown": {
-    "L": 30,
-    "M": 24,
-    "S": 21,
+    "L": 32,
+    "M": 26,
+    "S": 22,
     "XL": 19,
     "XXL": 7,
-    "XS": 2
+    "XS": 3
    },
    "returns": 172,
    "top_issue": "too_small",
    "top_issue_label": "Too small",
-   "top_issue_count": 103,
-   "top_issue_share": 0.5988,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 20
+   "top_issue_count": 109,
+   "top_issue_share": 0.6337,
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 12
   },
   {
    "id": "V07|Dress",
@@ -114,19 +114,19 @@
    "size": "M, L",
    "size_breakdown": {
     "M": 22,
-    "L": 14,
+    "L": 16,
+    "S": 9,
     "XL": 8,
-    "S": 8,
     "XXL": 4,
     "XS": 2
    },
    "returns": 105,
    "top_issue": "too_small",
    "top_issue_label": "Too small",
-   "top_issue_count": 58,
-   "top_issue_share": 0.5524,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 9
+   "top_issue_count": 61,
+   "top_issue_share": 0.581,
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 5
   },
   {
    "id": "V12|Kurti",
@@ -136,9 +136,9 @@
    "size": "XL, L",
    "size_breakdown": {
     "XL": 7,
-    "L": 6,
+    "L": 5,
+    "S": 5,
     "XXL": 4,
-    "S": 4,
     "M": 2
    },
    "returns": 71,
@@ -146,8 +146,8 @@
    "top_issue_label": "Colour mismatch",
    "top_issue_count": 23,
    "top_issue_share": 0.3239,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 7
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 6
   },
   {
    "id": "V21|Kurti",
@@ -157,7 +157,7 @@
    "size": "All sizes",
    "size_breakdown": {
     "M": 7,
-    "L": 4,
+    "L": 5,
     "S": 2,
     "XL": 2,
     "XXL": 1
@@ -165,10 +165,33 @@
    "returns": 42,
    "top_issue": "quality",
    "top_issue_label": "Quality",
-   "top_issue_count": 16,
-   "top_issue_share": 0.381,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 5
+   "top_issue_count": 17,
+   "top_issue_share": 0.4048,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 3
+  },
+  {
+   "id": "V21|Frock",
+   "vendor_id": "V21",
+   "vendor_name": "Leheriya Lane",
+   "subcategory": "Frock",
+   "size": "All sizes",
+   "size_breakdown": {
+    "11-12Y": 3,
+    "6-7Y": 2,
+    "4-5Y": 2,
+    "7-8Y": 2,
+    "2-3Y": 2,
+    "3-4Y": 2,
+    "9-10Y": 1
+   },
+   "returns": 38,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 14,
+   "top_issue_share": 0.3684,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 4
   },
   {
    "id": "V12|Dress",
@@ -188,31 +211,28 @@
    "top_issue_label": "Colour mismatch",
    "top_issue_count": 13,
    "top_issue_share": 0.3421,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 5
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 4
   },
   {
-   "id": "V21|Frock",
-   "vendor_id": "V21",
-   "vendor_name": "Leheriya Lane",
-   "subcategory": "Frock",
+   "id": "V12|Top",
+   "vendor_id": "V12",
+   "vendor_name": "Neel Indigo Works",
+   "subcategory": "Top",
    "size": "All sizes",
    "size_breakdown": {
-    "7-8Y": 2,
-    "4-5Y": 2,
-    "11-12Y": 2,
-    "2-3Y": 2,
-    "3-4Y": 2,
-    "9-10Y": 1,
-    "6-7Y": 1
+    "M": 8,
+    "XS": 2,
+    "S": 2,
+    "XL": 1
    },
-   "returns": 38,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 12,
-   "top_issue_share": 0.3158,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 8
+   "returns": 39,
+   "top_issue": "colour_mismatch",
+   "top_issue_label": "Colour mismatch",
+   "top_issue_count": 13,
+   "top_issue_share": 0.3333,
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 5
   },
   {
    "id": "V35|Top",
@@ -223,6 +243,27 @@
    "size_breakdown": {
     "S": 5,
     "M": 3,
+    "XS": 1,
+    "XL": 1
+   },
+   "returns": 22,
+   "top_issue": "colour_mismatch",
+   "top_issue_label": "Colour mismatch",
+   "top_issue_count": 10,
+   "top_issue_share": 0.4545,
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 0
+  },
+  {
+   "id": "V12|Palazzo",
+   "vendor_id": "V12",
+   "vendor_name": "Neel Indigo Works",
+   "subcategory": "Palazzo",
+   "size": "All sizes",
+   "size_breakdown": {
+    "L": 3,
+    "XL": 3,
+    "M": 2,
     "XS": 1
    },
    "returns": 22,
@@ -230,28 +271,27 @@
    "top_issue_label": "Colour mismatch",
    "top_issue_count": 9,
    "top_issue_share": 0.4091,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 1
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 3
   },
   {
-   "id": "V12|Top",
+   "id": "V12|Kurta Set",
    "vendor_id": "V12",
    "vendor_name": "Neel Indigo Works",
-   "subcategory": "Top",
+   "subcategory": "Kurta Set",
    "size": "All sizes",
    "size_breakdown": {
-    "M": 7,
-    "S": 2,
-    "XS": 1,
-    "XL": 1
+    "M": 4,
+    "L": 3,
+    "S": 2
    },
-   "returns": 39,
+   "returns": 23,
    "top_issue": "colour_mismatch",
    "top_issue_label": "Colour mismatch",
-   "top_issue_count": 11,
-   "top_issue_share": 0.2821,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 6
+   "top_issue_count": 9,
+   "top_issue_share": 0.3913,
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 1
   },
   {
    "id": "V07|Kids Shorts",
@@ -271,28 +311,8 @@
    "top_issue_label": "Too large",
    "top_issue_count": 8,
    "top_issue_share": 0.4,
-   "baseline_share": 0.1227,
+   "baseline_share": 0.1273,
    "unclear_or_failed": 2
-  },
-  {
-   "id": "V12|Palazzo",
-   "vendor_id": "V12",
-   "vendor_name": "Neel Indigo Works",
-   "subcategory": "Palazzo",
-   "size": "All sizes",
-   "size_breakdown": {
-    "XL": 3,
-    "L": 2,
-    "M": 2,
-    "XS": 1
-   },
-   "returns": 22,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
-   "top_issue_count": 8,
-   "top_issue_share": 0.3636,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 4
   },
   {
    "id": "V21|Palazzo",
@@ -312,7 +332,7 @@
    "top_issue_label": "Quality",
    "top_issue_count": 8,
    "top_issue_share": 0.4,
-   "baseline_share": 0.1401,
+   "baseline_share": 0.1459,
    "unclear_or_failed": 3
   },
   {
@@ -332,46 +352,8 @@
    "top_issue_label": "Quality",
    "top_issue_count": 8,
    "top_issue_share": 0.4,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 4
-  },
-  {
-   "id": "V12|Kurta Set",
-   "vendor_id": "V12",
-   "vendor_name": "Neel Indigo Works",
-   "subcategory": "Kurta Set",
-   "size": "All sizes",
-   "size_breakdown": {
-    "M": 4,
-    "L": 2,
-    "S": 2
-   },
-   "returns": 23,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
-   "top_issue_count": 8,
-   "top_issue_share": 0.3478,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 4
-  },
-  {
-   "id": "V22|Dress",
-   "vendor_id": "V22",
-   "vendor_name": "Kangeyam Textiles",
-   "subcategory": "Dress",
-   "size": "All sizes",
-   "size_breakdown": {
-    "XL": 3,
-    "M": 3,
-    "L": 1
-   },
-   "returns": 38,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 7,
-   "top_issue_share": 0.1842,
-   "baseline_share": 0.0656,
-   "unclear_or_failed": 4
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 3
   },
   {
    "id": "V40|Top",
@@ -391,69 +373,145 @@
    "top_issue_label": "Wrong item",
    "top_issue_count": 6,
    "top_issue_share": 0.1429,
-   "baseline_share": 0.04,
-   "unclear_or_failed": 7
+   "baseline_share": 0.0438,
+   "unclear_or_failed": 5
   },
   {
-   "id": "V09|Kurti",
-   "vendor_id": "V09",
-   "vendor_name": "Hawa Mahal Hand Block",
+   "id": "V01|Kurti",
+   "vendor_id": "V01",
+   "vendor_name": "Sutradhar Textiles",
    "subcategory": "Kurti",
    "size": "All sizes",
    "size_breakdown": {
-    "M": 3,
-    "S": 2,
-    "XL": 1
+    "M": 2,
+    "L": 2,
+    "XXL": 2,
+    "S": 1
    },
-   "returns": 28,
-   "top_issue": "changed_mind",
-   "top_issue_label": "Changed mind",
-   "top_issue_count": 6,
-   "top_issue_share": 0.2143,
-   "baseline_share": 0.0824,
-   "unclear_or_failed": 6
+   "returns": 20,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 7,
+   "top_issue_share": 0.35,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 2
   },
   {
-   "id": "V02|Dress",
-   "vendor_id": "V02",
-   "vendor_name": "Kesari Fabrics",
+   "id": "V22|Dress",
+   "vendor_id": "V22",
+   "vendor_name": "Kangeyam Textiles",
    "subcategory": "Dress",
    "size": "All sizes",
    "size_breakdown": {
-    "L": 4,
-    "S": 3,
-    "M": 2,
-    "XXL": 1,
-    "XL": 1
-   },
-   "returns": 31,
-   "top_issue": "too_small",
-   "top_issue_label": "Too small",
-   "top_issue_count": 11,
-   "top_issue_share": 0.3548,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 4
-  },
-  {
-   "id": "V21|Co-ord Set",
-   "vendor_id": "V21",
-   "vendor_name": "Leheriya Lane",
-   "subcategory": "Co-ord Set",
-   "size": "All sizes",
-   "size_breakdown": {
-    "S": 1,
-    "XXL": 1,
-    "M": 1,
-    "XL": 1,
+    "XL": 3,
+    "M": 3,
     "L": 1
    },
-   "returns": 21,
-   "top_issue": "changed_mind",
-   "top_issue_label": "Changed mind",
-   "top_issue_count": 5,
-   "top_issue_share": 0.2381,
+   "returns": 38,
+   "top_issue": "damaged",
+   "top_issue_label": "Damaged",
+   "top_issue_count": 7,
+   "top_issue_share": 0.1842,
    "baseline_share": 0.0824,
+   "unclear_or_failed": 5
+  },
+  {
+   "id": "V16|Kurti",
+   "vendor_id": "V16",
+   "vendor_name": "Velan Exports",
+   "subcategory": "Kurti",
+   "size": "All sizes",
+   "size_breakdown": {
+    "XL": 2,
+    "M": 2,
+    "XXL": 2,
+    "L": 1,
+    "S": 1
+   },
+   "returns": 33,
+   "top_issue": "colour_mismatch",
+   "top_issue_label": "Colour mismatch",
+   "top_issue_count": 8,
+   "top_issue_share": 0.2424,
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 1
+  },
+  {
+   "id": "V21|Dress",
+   "vendor_id": "V21",
+   "vendor_name": "Leheriya Lane",
+   "subcategory": "Dress",
+   "size": "All sizes",
+   "size_breakdown": {
+    "M": 3,
+    "L": 2,
+    "S": 1
+   },
+   "returns": 20,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 6,
+   "top_issue_share": 0.3,
+   "baseline_share": 0.1459,
    "unclear_or_failed": 2
+  },
+  {
+   "id": "V32|Frock",
+   "vendor_id": "V32",
+   "vendor_name": "Vellakoil Textiles",
+   "subcategory": "Frock",
+   "size": "All sizes",
+   "size_breakdown": {
+    "2-3Y": 2,
+    "7-8Y": 2,
+    "4-5Y": 1,
+    "6-7Y": 1
+   },
+   "returns": 21,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 6,
+   "top_issue_share": 0.2857,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 1
+  },
+  {
+   "id": "V27|Kurti",
+   "vendor_id": "V27",
+   "vendor_name": "Moti Mahal Fabrics",
+   "subcategory": "Kurti",
+   "size": "All sizes",
+   "size_breakdown": {
+    "XL": 2,
+    "L": 2
+   },
+   "returns": 27,
+   "top_issue": "wrong_item",
+   "top_issue_label": "Wrong item",
+   "top_issue_count": 4,
+   "top_issue_share": 0.1481,
+   "baseline_share": 0.0438,
+   "unclear_or_failed": 2
+  },
+  {
+   "id": "V20|School Shirt",
+   "vendor_id": "V20",
+   "vendor_name": "Palladam Fashions",
+   "subcategory": "School Shirt",
+   "size": "All sizes",
+   "size_breakdown": {
+    "2-3Y": 3,
+    "6-7Y": 1,
+    "5-6Y": 1,
+    "9-10Y": 1
+   },
+   "returns": 22,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 6,
+   "top_issue_share": 0.2727,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 5
   },
   {
    "id": "V05|Kurta Set",
@@ -473,29 +531,47 @@
    "top_issue_label": "Too small",
    "top_issue_count": 8,
    "top_issue_share": 0.381,
-   "baseline_share": 0.2395,
+   "baseline_share": 0.2509,
    "unclear_or_failed": 4
   },
   {
-   "id": "V16|Kurti",
-   "vendor_id": "V16",
-   "vendor_name": "Velan Exports",
+   "id": "V19|Men's T-shirt",
+   "vendor_id": "V19",
+   "vendor_name": "Jharokha Designs",
+   "subcategory": "Men's T-shirt",
+   "size": "All sizes",
+   "size_breakdown": {
+    "S": 2,
+    "L": 1,
+    "M": 1,
+    "XXL": 1
+   },
+   "returns": 29,
+   "top_issue": "damaged",
+   "top_issue_label": "Damaged",
+   "top_issue_count": 5,
+   "top_issue_share": 0.1724,
+   "baseline_share": 0.0824,
+   "unclear_or_failed": 2
+  },
+  {
+   "id": "V09|Kurti",
+   "vendor_id": "V09",
+   "vendor_name": "Hawa Mahal Hand Block",
    "subcategory": "Kurti",
    "size": "All sizes",
    "size_breakdown": {
-    "XL": 2,
-    "XXL": 2,
-    "L": 1,
-    "M": 1,
-    "S": 1
+    "M": 2,
+    "S": 2,
+    "XL": 1
    },
-   "returns": 33,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
-   "top_issue_count": 7,
-   "top_issue_share": 0.2121,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 3
+   "returns": 28,
+   "top_issue": "changed_mind",
+   "top_issue_label": "Changed mind",
+   "top_issue_count": 5,
+   "top_issue_share": 0.1786,
+   "baseline_share": 0.0857,
+   "unclear_or_failed": 7
   },
   {
    "id": "V19|Kurta Set",
@@ -515,7 +591,7 @@
    "top_issue_label": "Too small",
    "top_issue_count": 8,
    "top_issue_share": 0.3636,
-   "baseline_share": 0.2395,
+   "baseline_share": 0.2509,
    "unclear_or_failed": 2
   },
   {
@@ -536,26 +612,28 @@
    "top_issue_label": "Too small",
    "top_issue_count": 8,
    "top_issue_share": 0.3636,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 1
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 0
   },
   {
-   "id": "V01|Kurti",
-   "vendor_id": "V01",
-   "vendor_name": "Sutradhar Textiles",
-   "subcategory": "Kurti",
+   "id": "V28|Kids T-shirt",
+   "vendor_id": "V28",
+   "vendor_name": "Perundurai Knits",
+   "subcategory": "Kids T-shirt",
    "size": "All sizes",
    "size_breakdown": {
-    "XL": 2,
-    "S": 1,
-    "XXL": 1
+    "5-6Y": 3,
+    "9-10Y": 3,
+    "3-4Y": 2,
+    "4-5Y": 1,
+    "2-3Y": 1
    },
-   "returns": 20,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 4,
-   "top_issue_share": 0.2,
-   "baseline_share": 0.0656,
+   "returns": 30,
+   "top_issue": "too_small",
+   "top_issue_label": "Too small",
+   "top_issue_count": 10,
+   "top_issue_share": 0.3333,
+   "baseline_share": 0.2509,
    "unclear_or_failed": 3
   },
   {
@@ -574,121 +652,70 @@
    "top_issue_label": "Colour mismatch",
    "top_issue_count": 5,
    "top_issue_share": 0.25,
-   "baseline_share": 0.1252,
+   "baseline_share": 0.1273,
    "unclear_or_failed": 1
   },
   {
-   "id": "V30|Frock",
-   "vendor_id": "V30",
-   "vendor_name": "Kumaran Clothing",
-   "subcategory": "Frock",
-   "size": "All sizes",
-   "size_breakdown": {
-    "9-10Y": 3,
-    "1-2Y": 1
-   },
-   "returns": 24,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 4,
-   "top_issue_share": 0.1667,
-   "baseline_share": 0.0656,
-   "unclear_or_failed": 6
-  },
-  {
-   "id": "V27|Kurti",
-   "vendor_id": "V27",
-   "vendor_name": "Moti Mahal Fabrics",
+   "id": "V26|Kurti",
+   "vendor_id": "V26",
+   "vendor_name": "Udumalai Garments",
    "subcategory": "Kurti",
    "size": "All sizes",
    "size_breakdown": {
+    "XS": 2,
     "XL": 2,
-    "XS": 1,
-    "L": 1
+    "S": 2,
+    "L": 1,
+    "M": 1
    },
-   "returns": 27,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 4,
-   "top_issue_share": 0.1481,
-   "baseline_share": 0.0656,
-   "unclear_or_failed": 3
+   "returns": 23,
+   "top_issue": "too_small",
+   "top_issue_label": "Too small",
+   "top_issue_count": 8,
+   "top_issue_share": 0.3478,
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 4
   },
   {
-   "id": "V21|Dress",
-   "vendor_id": "V21",
-   "vendor_name": "Leheriya Lane",
+   "id": "V02|Dress",
+   "vendor_id": "V02",
+   "vendor_name": "Kesari Fabrics",
    "subcategory": "Dress",
    "size": "All sizes",
    "size_breakdown": {
-    "M": 3,
-    "L": 1,
-    "S": 1
-   },
-   "returns": 20,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 5,
-   "top_issue_share": 0.25,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 5
-  },
-  {
-   "id": "V17|Men's T-shirt",
-   "vendor_id": "V17",
-   "vendor_name": "Chunri Collective",
-   "subcategory": "Men's T-shirt",
-   "size": "All sizes",
-   "size_breakdown": {
-    "M": 3,
-    "L": 2
-   },
-   "returns": 23,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
-   "top_issue_count": 5,
-   "top_issue_share": 0.2174,
-   "baseline_share": 0.1252,
-   "unclear_or_failed": 2
-  },
-  {
-   "id": "V19|Men's T-shirt",
-   "vendor_id": "V19",
-   "vendor_name": "Jharokha Designs",
-   "subcategory": "Men's T-shirt",
-   "size": "All sizes",
-   "size_breakdown": {
-    "L": 1,
-    "M": 1,
+    "S": 3,
+    "L": 3,
+    "M": 2,
     "XXL": 1,
-    "S": 1
+    "XL": 1
    },
-   "returns": 29,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 4,
-   "top_issue_share": 0.1379,
-   "baseline_share": 0.0656,
-   "unclear_or_failed": 3
+   "returns": 31,
+   "top_issue": "too_small",
+   "top_issue_label": "Too small",
+   "top_issue_count": 10,
+   "top_issue_share": 0.3226,
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 1
   },
   {
-   "id": "V32|Frock",
-   "vendor_id": "V32",
-   "vendor_name": "Vellakoil Textiles",
-   "subcategory": "Frock",
+   "id": "V21|Co-ord Set",
+   "vendor_id": "V21",
+   "vendor_name": "Leheriya Lane",
+   "subcategory": "Co-ord Set",
    "size": "All sizes",
    "size_breakdown": {
-    "2-3Y": 2,
-    "7-8Y": 2,
-    "4-5Y": 1
+    "S": 1,
+    "XXL": 1,
+    "XL": 1,
+    "L": 1
    },
    "returns": 21,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 5,
-   "top_issue_share": 0.2381,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 4
+   "top_issue": "changed_mind",
+   "top_issue_label": "Changed mind",
+   "top_issue_count": 4,
+   "top_issue_share": 0.1905,
+   "baseline_share": 0.0857,
+   "unclear_or_failed": 3
   },
   {
    "id": "V08|Palazzo",
@@ -706,47 +733,101 @@
    "top_issue_label": "Delivery late",
    "top_issue_count": 3,
    "top_issue_share": 0.15,
-   "baseline_share": 0.0473,
-   "unclear_or_failed": 3
-  },
-  {
-   "id": "V11|School Shirt",
-   "vendor_id": "V11",
-   "vendor_name": "Bandhej House",
-   "subcategory": "School Shirt",
-   "size": "All sizes",
-   "size_breakdown": {
-    "2-3Y": 1,
-    "7-8Y": 1,
-    "1-2Y": 1
-   },
-   "returns": 24,
-   "top_issue": "wrong_item",
-   "top_issue_label": "Wrong item",
-   "top_issue_count": 3,
-   "top_issue_share": 0.125,
    "baseline_share": 0.04,
-   "unclear_or_failed": 3
+   "unclear_or_failed": 2
   },
   {
-   "id": "V20|School Shirt",
-   "vendor_id": "V20",
-   "vendor_name": "Palladam Fashions",
-   "subcategory": "School Shirt",
+   "id": "V33|Top",
+   "vendor_id": "V33",
+   "vendor_name": "Ajrakh Stories",
+   "subcategory": "Top",
    "size": "All sizes",
    "size_breakdown": {
-    "2-3Y": 2,
-    "6-7Y": 1,
-    "5-6Y": 1,
-    "9-10Y": 1
+    "S": 2,
+    "L": 1
    },
-   "returns": 22,
+   "returns": 20,
+   "top_issue": "delivery_late",
+   "top_issue_label": "Delivery late",
+   "top_issue_count": 3,
+   "top_issue_share": 0.15,
+   "baseline_share": 0.04,
+   "unclear_or_failed": 1
+  },
+  {
+   "id": "V15|Kurta Set",
+   "vendor_id": "V15",
+   "vendor_name": "Marudhar Crafts",
+   "subcategory": "Kurta Set",
+   "size": "All sizes",
+   "size_breakdown": {
+    "XL": 2,
+    "M": 1,
+    "S": 1,
+    "L": 1
+   },
+   "returns": 20,
    "top_issue": "quality",
    "top_issue_label": "Quality",
    "top_issue_count": 5,
-   "top_issue_share": 0.2273,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 7
+   "top_issue_share": 0.25,
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 2
+  },
+  {
+   "id": "V17|Men's T-shirt",
+   "vendor_id": "V17",
+   "vendor_name": "Chunri Collective",
+   "subcategory": "Men's T-shirt",
+   "size": "All sizes",
+   "size_breakdown": {
+    "M": 3,
+    "L": 2
+   },
+   "returns": 23,
+   "top_issue": "colour_mismatch",
+   "top_issue_label": "Colour mismatch",
+   "top_issue_count": 5,
+   "top_issue_share": 0.2174,
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 0
+  },
+  {
+   "id": "V30|Frock",
+   "vendor_id": "V30",
+   "vendor_name": "Kumaran Clothing",
+   "subcategory": "Frock",
+   "size": "All sizes",
+   "size_breakdown": {
+    "9-10Y": 3,
+    "1-2Y": 1
+   },
+   "returns": 24,
+   "top_issue": "damaged",
+   "top_issue_label": "Damaged",
+   "top_issue_count": 4,
+   "top_issue_share": 0.1667,
+   "baseline_share": 0.0824,
+   "unclear_or_failed": 5
+  },
+  {
+   "id": "V03|Men's T-shirt",
+   "vendor_id": "V03",
+   "vendor_name": "Noyyal Knits",
+   "subcategory": "Men's T-shirt",
+   "size": "All sizes",
+   "size_breakdown": {
+    "L": 4,
+    "M": 3,
+    "S": 1
+   },
+   "returns": 25,
+   "top_issue": "too_small",
+   "top_issue_label": "Too small",
+   "top_issue_count": 8,
+   "top_issue_share": 0.32,
+   "baseline_share": 0.2509,
+   "unclear_or_failed": 4
   },
   {
    "id": "V37|Kurti",
@@ -764,29 +845,27 @@
    "top_issue_label": "Quality",
    "top_issue_count": 5,
    "top_issue_share": 0.2174,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 7
+   "baseline_share": 0.1459,
+   "unclear_or_failed": 6
   },
   {
-   "id": "V26|Kurti",
-   "vendor_id": "V26",
-   "vendor_name": "Udumalai Garments",
-   "subcategory": "Kurti",
+   "id": "V03|Kurta Set",
+   "vendor_id": "V03",
+   "vendor_name": "Noyyal Knits",
+   "subcategory": "Kurta Set",
    "size": "All sizes",
    "size_breakdown": {
-    "XS": 2,
-    "XL": 2,
-    "L": 1,
     "M": 1,
-    "S": 1
+    "XXL": 1,
+    "L": 1
    },
-   "returns": 23,
-   "top_issue": "too_small",
-   "top_issue_label": "Too small",
-   "top_issue_count": 7,
-   "top_issue_share": 0.3043,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 3
+   "returns": 20,
+   "top_issue": "damaged",
+   "top_issue_label": "Damaged",
+   "top_issue_count": 3,
+   "top_issue_share": 0.15,
+   "baseline_share": 0.0824,
+   "unclear_or_failed": 2
   },
   {
    "id": "V04|Kurta Set",
@@ -805,67 +884,8 @@
    "top_issue_label": "Too large",
    "top_issue_count": 4,
    "top_issue_share": 0.1905,
-   "baseline_share": 0.1227,
-   "unclear_or_failed": 3
-  },
-  {
-   "id": "V15|Kurta Set",
-   "vendor_id": "V15",
-   "vendor_name": "Marudhar Crafts",
-   "subcategory": "Kurta Set",
-   "size": "All sizes",
-   "size_breakdown": {
-    "M": 1,
-    "XL": 1,
-    "XXL": 1
-   },
-   "returns": 20,
-   "top_issue": "changed_mind",
-   "top_issue_label": "Changed mind",
-   "top_issue_count": 3,
-   "top_issue_share": 0.15,
-   "baseline_share": 0.0824,
-   "unclear_or_failed": 4
-  },
-  {
-   "id": "V23|Kids T-shirt",
-   "vendor_id": "V23",
-   "vendor_name": "Gulabi Threads",
-   "subcategory": "Kids T-shirt",
-   "size": "All sizes",
-   "size_breakdown": {
-    "6-7Y": 2,
-    "5-6Y": 2,
-    "3-4Y": 1,
-    "11-12Y": 1,
-    "1-2Y": 1
-   },
-   "returns": 24,
-   "top_issue": "too_small",
-   "top_issue_label": "Too small",
-   "top_issue_count": 7,
-   "top_issue_share": 0.2917,
-   "baseline_share": 0.2395,
-   "unclear_or_failed": 3
-  },
-  {
-   "id": "V33|Top",
-   "vendor_id": "V33",
-   "vendor_name": "Ajrakh Stories",
-   "subcategory": "Top",
-   "size": "All sizes",
-   "size_breakdown": {
-    "XL": 2,
-    "M": 1,
-    "XS": 1
-   },
-   "returns": 20,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 4,
-   "top_issue_share": 0.2,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 4
+   "baseline_share": 0.1273,
+   "unclear_or_failed": 2
   },
   {
    "id": "V07|Kurta Set",
@@ -874,15 +894,16 @@
    "subcategory": "Kurta Set",
    "size": "All sizes",
    "size_breakdown": {
-    "M": 2
+    "M": 2,
+    "XL": 1
    },
    "returns": 21,
-   "top_issue": "wrong_item",
-   "top_issue_label": "Wrong item",
-   "top_issue_count": 2,
-   "top_issue_share": 0.0952,
-   "baseline_share": 0.04,
-   "unclear_or_failed": 4
+   "top_issue": "changed_mind",
+   "top_issue_label": "Changed mind",
+   "top_issue_count": 3,
+   "top_issue_share": 0.1429,
+   "baseline_share": 0.0857,
+   "unclear_or_failed": 1
   },
   {
    "id": "V36|Track Pants",
@@ -891,35 +912,16 @@
    "subcategory": "Track Pants",
    "size": "All sizes",
    "size_breakdown": {
-    "XL": 2,
-    "XXL": 1,
-    "S": 1
+    "M": 1,
+    "XS": 1
    },
    "returns": 21,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 4,
-   "top_issue_share": 0.1905,
-   "baseline_share": 0.1401,
-   "unclear_or_failed": 2
-  },
-  {
-   "id": "V03|Kurta Set",
-   "vendor_id": "V03",
-   "vendor_name": "Noyyal Knits",
-   "subcategory": "Kurta Set",
-   "size": "All sizes",
-   "size_breakdown": {
-    "XS": 1,
-    "M": 1
-   },
-   "returns": 20,
    "top_issue": "delivery_late",
    "top_issue_label": "Delivery late",
    "top_issue_count": 2,
-   "top_issue_share": 0.1,
-   "baseline_share": 0.0473,
-   "unclear_or_failed": 3
+   "top_issue_share": 0.0952,
+   "baseline_share": 0.04,
+   "unclear_or_failed": 1
   }
  ],
  "locations": [
@@ -929,59 +931,29 @@
    "returns": 136,
    "top_issue": "too_small",
    "top_issue_label": "Too small",
-   "top_issue_count": 47,
-   "top_issue_share": 0.3456,
-   "baseline_share": 0.2395
+   "top_issue_count": 48,
+   "top_issue_share": 0.3529,
+   "baseline_share": 0.2509
   },
   {
    "city": "Guwahati",
    "state": "Assam",
    "returns": 118,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 18,
-   "top_issue_share": 0.1525,
-   "baseline_share": 0.0656
+   "top_issue": "delivery_late",
+   "top_issue_label": "Delivery late",
+   "top_issue_count": 17,
+   "top_issue_share": 0.1441,
+   "baseline_share": 0.04
   },
   {
-   "city": "Coimbatore",
-   "state": "Tamil Nadu",
-   "returns": 101,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 22,
-   "top_issue_share": 0.2178,
-   "baseline_share": 0.1401
-  },
-  {
-   "city": "Surat",
-   "state": "Gujarat",
-   "returns": 117,
-   "top_issue": "quality",
-   "top_issue_label": "Quality",
-   "top_issue_count": 24,
-   "top_issue_share": 0.2051,
-   "baseline_share": 0.1401
-  },
-  {
-   "city": "Kanpur",
-   "state": "Uttar Pradesh",
-   "returns": 137,
+   "city": "Mumbai",
+   "state": "Maharashtra",
+   "returns": 199,
    "top_issue": "too_small",
    "top_issue_label": "Too small",
-   "top_issue_count": 40,
-   "top_issue_share": 0.292,
-   "baseline_share": 0.2395
-  },
-  {
-   "city": "Shillong",
-   "state": "Meghalaya",
-   "returns": 62,
-   "top_issue": "damaged",
-   "top_issue_label": "Damaged",
-   "top_issue_count": 11,
-   "top_issue_share": 0.1774,
-   "baseline_share": 0.0656
+   "top_issue_count": 61,
+   "top_issue_share": 0.3065,
+   "baseline_share": 0.2509
   },
   {
    "city": "Ludhiana",
@@ -989,9 +961,9 @@
    "returns": 96,
    "top_issue": "quality",
    "top_issue_label": "Quality",
-   "top_issue_count": 20,
-   "top_issue_share": 0.2083,
-   "baseline_share": 0.1401
+   "top_issue_count": 23,
+   "top_issue_share": 0.2396,
+   "baseline_share": 0.1459
   },
   {
    "city": "Nagpur",
@@ -999,29 +971,19 @@
    "returns": 124,
    "top_issue": "colour_mismatch",
    "top_issue_label": "Colour mismatch",
-   "top_issue_count": 22,
-   "top_issue_share": 0.1774,
-   "baseline_share": 0.1252
+   "top_issue_count": 24,
+   "top_issue_share": 0.1935,
+   "baseline_share": 0.1273
   },
   {
-   "city": "Hubballi",
-   "state": "Karnataka",
-   "returns": 78,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
-   "top_issue_count": 16,
-   "top_issue_share": 0.2051,
-   "baseline_share": 0.1252
-  },
-  {
-   "city": "Bilaspur",
-   "state": "Chhattisgarh",
-   "returns": 50,
-   "top_issue": "colour_mismatch",
-   "top_issue_label": "Colour mismatch",
+   "city": "Shillong",
+   "state": "Meghalaya",
+   "returns": 62,
+   "top_issue": "damaged",
+   "top_issue_label": "Damaged",
    "top_issue_count": 12,
-   "top_issue_share": 0.24,
-   "baseline_share": 0.1252
+   "top_issue_share": 0.1935,
+   "baseline_share": 0.0824
   },
   {
    "city": "Agartala",
@@ -1029,29 +991,79 @@
    "returns": 50,
    "top_issue": "damaged",
    "top_issue_label": "Damaged",
-   "top_issue_count": 8,
-   "top_issue_share": 0.16,
-   "baseline_share": 0.0656
-  },
-  {
-   "city": "Bareilly",
-   "state": "Uttar Pradesh",
-   "returns": 69,
-   "top_issue": "changed_mind",
-   "top_issue_label": "Changed mind",
-   "top_issue_count": 10,
-   "top_issue_share": 0.1449,
+   "top_issue_count": 11,
+   "top_issue_share": 0.22,
    "baseline_share": 0.0824
   },
   {
-   "city": "Siliguri",
-   "state": "West Bengal",
-   "returns": 44,
+   "city": "Bilaspur",
+   "state": "Chhattisgarh",
+   "returns": 50,
    "top_issue": "colour_mismatch",
    "top_issue_label": "Colour mismatch",
-   "top_issue_count": 8,
-   "top_issue_share": 0.1818,
-   "baseline_share": 0.1252
+   "top_issue_count": 13,
+   "top_issue_share": 0.26,
+   "baseline_share": 0.1273
+  },
+  {
+   "city": "Hubballi",
+   "state": "Karnataka",
+   "returns": 78,
+   "top_issue": "too_large",
+   "top_issue_label": "Too large",
+   "top_issue_count": 16,
+   "top_issue_share": 0.2051,
+   "baseline_share": 0.1273
+  },
+  {
+   "city": "Surat",
+   "state": "Gujarat",
+   "returns": 117,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 23,
+   "top_issue_share": 0.1966,
+   "baseline_share": 0.1459
+  },
+  {
+   "city": "Bhopal",
+   "state": "Madhya Pradesh",
+   "returns": 111,
+   "top_issue": "colour_mismatch",
+   "top_issue_label": "Colour mismatch",
+   "top_issue_count": 20,
+   "top_issue_share": 0.1802,
+   "baseline_share": 0.1273
+  },
+  {
+   "city": "Coimbatore",
+   "state": "Tamil Nadu",
+   "returns": 101,
+   "top_issue": "quality",
+   "top_issue_label": "Quality",
+   "top_issue_count": 20,
+   "top_issue_share": 0.198,
+   "baseline_share": 0.1459
+  },
+  {
+   "city": "Gorakhpur",
+   "state": "Uttar Pradesh",
+   "returns": 103,
+   "top_issue": "changed_mind",
+   "top_issue_label": "Changed mind",
+   "top_issue_count": 14,
+   "top_issue_share": 0.1359,
+   "baseline_share": 0.0857
+  },
+  {
+   "city": "Bhilwara",
+   "state": "Rajasthan",
+   "returns": 53,
+   "top_issue": "too_small",
+   "top_issue_label": "Too small",
+   "top_issue_count": 16,
+   "top_issue_share": 0.3019,
+   "baseline_share": 0.2509
   }
  ]
 }

@@ -162,9 +162,9 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       <h4>Example: <code>GET /api/summary</code> → 200 <a class="sref" href="#schema-Summary">Summary</a></h4>
       <pre class="code"><code>{
   &quot;meta&quot;: {
-    &quot;data_mode&quot;: &quot;sample&quot;,
+    &quot;data_mode&quot;: &quot;live&quot;,
     &quot;synthetic&quot;: true,
-    &quot;generated_at&quot;: &quot;2026-10-04T05:42:38+00:00&quot;,
+    &quot;generated_at&quot;: &quot;2026-10-04T07:54:43+00:00&quot;,
     &quot;window&quot;: {
       &quot;from&quot;: &quot;2025-10-01&quot;,
       &quot;to&quot;: &quot;2026-09-30&quot;,
@@ -172,29 +172,29 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
     },
     &quot;confidence_threshold&quot;: 0.7,
     &quot;min_returns_per_hotspot&quot;: 20,
-    &quot;classifier_note&quot;: &quot;The AI reading hasn&#x27;t run yet, so &#x27;Other&#x27; comments are sorted by a simple keyword match. Expect more mistakes than the final version.&quot;,
+    &quot;classifier_note&quot;: null,
     &quot;corrections_storage&quot;: &quot;temporary&quot;
   },
   &quot;headline&quot;: {
     &quot;returns&quot;: 3675,
     &quot;known_reason_before&quot;: 0.5529,
-    &quot;known_reason_after&quot;: 0.8629,
+    &quot;known_reason_after&quot;: 0.9034,
     &quot;other_comments&quot;: 1643,
-    &quot;unclear&quot;: 476,
-    &quot;failed&quot;: 28
+    &quot;unclear&quot;: 355,
+    &quot;failed&quot;: 0
   },
   &quot;drivers&quot;: [
     {
       &quot;issue&quot;: &quot;too_small&quot;,
       &quot;label&quot;: &quot;Too small&quot;,
-      &quot;count&quot;: 880,
-      &quot;share&quot;: 0.2395
+      &quot;count&quot;: 922,
+      &quot;share&quot;: 0.2509
     },
     {
       &quot;issue&quot;: &quot;too_large&quot;,
       &quot;label&quot;: &quot;Too large&quot;,
-      &quot;count&quot;: 451,
-      &quot;share&quot;: 0.1227
+      &quot;count&quot;: 468,
+      &quot;share&quot;: 0.1273
     },
     &quot;… 8 more&quot;
   ],
@@ -206,20 +206,20 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;subcategory&quot;: &quot;Kurti&quot;,
       &quot;size&quot;: &quot;L, M&quot;,
       &quot;size_breakdown&quot;: {
-        &quot;L&quot;: 30,
-        &quot;M&quot;: 24,
-        &quot;S&quot;: 21,
+        &quot;L&quot;: 32,
+        &quot;M&quot;: 26,
+        &quot;S&quot;: 22,
         &quot;XL&quot;: 19,
         &quot;XXL&quot;: 7,
-        &quot;XS&quot;: 2
+        &quot;XS&quot;: 3
       },
       &quot;returns&quot;: 172,
       &quot;top_issue&quot;: &quot;too_small&quot;,
       &quot;top_issue_label&quot;: &quot;Too small&quot;,
-      &quot;top_issue_count&quot;: 103,
-      &quot;top_issue_share&quot;: 0.5988,
-      &quot;baseline_share&quot;: 0.2395,
-      &quot;unclear_or_failed&quot;: 20
+      &quot;top_issue_count&quot;: 109,
+      &quot;top_issue_share&quot;: 0.6337,
+      &quot;baseline_share&quot;: 0.2509,
+      &quot;unclear_or_failed&quot;: 12
     },
     {
       &quot;id&quot;: &quot;V07|Dress&quot;,
@@ -229,19 +229,19 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;size&quot;: &quot;M, L&quot;,
       &quot;size_breakdown&quot;: {
         &quot;M&quot;: 22,
-        &quot;L&quot;: 14,
+        &quot;L&quot;: 16,
+        &quot;S&quot;: 9,
         &quot;XL&quot;: 8,
-        &quot;S&quot;: 8,
         &quot;XXL&quot;: 4,
         &quot;XS&quot;: 2
       },
       &quot;returns&quot;: 105,
       &quot;top_issue&quot;: &quot;too_small&quot;,
       &quot;top_issue_label&quot;: &quot;Too small&quot;,
-      &quot;top_issue_count&quot;: 58,
-      &quot;top_issue_share&quot;: 0.5524,
-      &quot;baseline_share&quot;: 0.2395,
-      &quot;unclear_or_failed&quot;: 9
+      &quot;top_issue_count&quot;: 61,
+      &quot;top_issue_share&quot;: 0.581,
+      &quot;baseline_share&quot;: 0.2509,
+      &quot;unclear_or_failed&quot;: 5
     },
     &quot;… 40 more&quot;
   ],
@@ -252,21 +252,21 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;returns&quot;: 136,
       &quot;top_issue&quot;: &quot;too_small&quot;,
       &quot;top_issue_label&quot;: &quot;Too small&quot;,
-      &quot;top_issue_count&quot;: 47,
-      &quot;top_issue_share&quot;: 0.3456,
-      &quot;baseline_share&quot;: 0.2395
+      &quot;top_issue_count&quot;: 48,
+      &quot;top_issue_share&quot;: 0.3529,
+      &quot;baseline_share&quot;: 0.2509
     },
     {
       &quot;city&quot;: &quot;Guwahati&quot;,
       &quot;state&quot;: &quot;Assam&quot;,
       &quot;returns&quot;: 118,
-      &quot;top_issue&quot;: &quot;damaged&quot;,
-      &quot;top_issue_label&quot;: &quot;Damaged&quot;,
-      &quot;top_issue_count&quot;: 18,
-      &quot;top_issue_share&quot;: 0.1525,
-      &quot;baseline_share&quot;: 0.0656
+      &quot;top_issue&quot;: &quot;delivery_late&quot;,
+      &quot;top_issue_label&quot;: &quot;Delivery late&quot;,
+      &quot;top_issue_count&quot;: 17,
+      &quot;top_issue_share&quot;: 0.1441,
+      &quot;baseline_share&quot;: 0.04
     },
-    &quot;… 11 more&quot;
+    &quot;… 12 more&quot;
   ]
 }</code></pre>
     </section>
@@ -298,36 +298,36 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;key&quot;: &quot;last_year&quot;,
       &quot;label&quot;: &quot;Oct 2024 – Sep 2025&quot;,
       &quot;counts&quot;: [
+        62,
+        81,
+        61,
         59,
-        77,
-        59,
-        59,
-        52,
+        55,
+        67,
+        57,
+        36,
         65,
-        54,
-        35,
-        63,
-        53,
-        53,
-        47
+        59,
+        56,
+        48
       ]
     },
     {
       &quot;key&quot;: &quot;this_year&quot;,
       &quot;label&quot;: &quot;Oct 2025 – Sep 2026&quot;,
       &quot;counts&quot;: [
-        95,
-        83,
-        71,
-        63,
-        57,
+        101,
         88,
-        75,
-        71,
-        63,
-        84,
-        75,
-        55
+        76,
+        65,
+        59,
+        92,
+        81,
+        74,
+        65,
+        86,
+        77,
+        58
       ]
     }
   ]
@@ -340,7 +340,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       <h4>Query parameters</h4><div class='tbl'><table><thead><tr><th>Name</th><th>Type</th><th>Meaning</th></tr></thead><tbody><tr><td><code class='f'>vendor_id</code><span class=opt>optional</span></td><td class='t'>string | null</td><td> <span class='ex'>e.g. <code>V07</code></span></td></tr><tr><td><code class='f'>subcategory</code><span class=opt>optional</span></td><td class='t'>string | null</td><td> <span class='ex'>e.g. <code>Kurti</code></span></td></tr><tr><td><code class='f'>city</code><span class=opt>optional</span></td><td class='t'>string | null</td><td> <span class='ex'>e.g. <code>Guwahati</code></span></td></tr><tr><td><code class='f'>issue_type</code><span class=opt>optional</span></td><td class='t'>string | null</td><td>Includes <code>unclear</code> and <code>failed</code></td></tr></tbody></table></div><h4>Responses</h4><div class='tbl'><table><thead><tr><th>Status</th><th>When</th><th>Body</th></tr></thead><tbody><tr><td><span class='st st2'>200</span></td><td>Successful Response</td><td><a href=#schema-ReturnsPage>ReturnsPage</a></td></tr><tr><td><span class='st st4'>400</span></td><td>Unknown issue_type</td><td><a href=#schema-ErrorOut>ErrorOut</a></td></tr><tr><td><span class='st st4'>422</span></td><td>Validation Error</td><td><a href=#schema-HTTPValidationError>HTTPValidationError</a></td></tr><tr><td><span class='st st5'>503</span></td><td>Database unreachable or empty. <code>detail</code> is a sentence to show on screen.</td><td><a href=#schema-ErrorOut>ErrorOut</a></td></tr></tbody></table></div>
       <h4>Example: <code>GET /api/returns?vendor_id=V07&amp;subcategory=Kurti&amp;issue_type=too_small</code> → 200 <a class="sref" href="#schema-ReturnsPage">ReturnsPage</a></h4>
       <pre class="code"><code>{
-  &quot;total&quot;: 103,
+  &quot;total&quot;: 109,
   &quot;returns&quot;: [
     {
       &quot;return_id&quot;: &quot;RT000015&quot;,
@@ -361,9 +361,10 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;evidence_phrase&quot;: null,
       &quot;source&quot;: &quot;dropdown&quot;,
       &quot;model_name&quot;: null,
-      &quot;error&quot;: null
+      &quot;error&quot;: null,
+      &quot;explanation&quot;: null
     },
-    &quot;… 102 more&quot;
+    &quot;… 108 more&quot;
   ]
 }</code></pre>
     </section>
@@ -380,7 +381,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       &quot;model_issue_type&quot;: &quot;too_small&quot;,
       &quot;is_correct&quot;: false,
       &quot;corrected_issue&quot;: &quot;too_large&quot;,
-      &quot;corrected_at&quot;: &quot;2026-10-04 05:42:38&quot;
+      &quot;corrected_at&quot;: &quot;2026-10-04 07:54:43&quot;
     }
   },
   &quot;accuracy&quot;: {
@@ -428,10 +429,10 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
     &quot;orders&quot;: 24000,
     &quot;products&quot;: 600,
     &quot;vendors&quot;: 40,
-    &quot;classified_returns&quot;: 0,
+    &quot;classified_returns&quot;: 2921,
     &quot;corrections&quot;: 0
   },
-  &quot;labels_from&quot;: &quot;sample_stub&quot;,
+  &quot;labels_from&quot;: &quot;pipeline&quot;,
   &quot;corrections_storage&quot;: &quot;temporary&quot;,
   &quot;build&quot;: &quot;local&quot;
 }</code></pre>
@@ -448,6 +449,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
       <tr><td><code class="f">evidence_phrase</code></td><td class="t">text</td><td>The words the label is based on. It must be an exact substring of <code>returns.other_text</code> (case-insensitive), or the dashboard won't highlight it.</td></tr>
       <tr><td><code class="f">source</code></td><td class="t">text, required</td><td><code>gate</code> (empty or junk text, no model called), <code>cheap_model</code>, <code>strong_model</code>.</td></tr>
       <tr><td><code class="f">model_name</code></td><td class="t">text</td><td>The model id that produced the label. Null for <code>gate</code>.</td></tr>
+      <tr><td><code class="f">explanation</code></td><td class="t">text, optional</td><td>The AI's one-line reason in plain English. Shown to Neha under the label.</td></tr>
       <tr><td><code class="f">classified_at</code></td><td class="t">timestamptz</td><td>Defaults to now. The API watches the row count and the latest timestamp to know when to recompute.</td></tr>
     </tbody></table></div>
     <ol class="rules">
@@ -458,15 +460,17 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
         appears as <code>failed</code> with the message “The AI returned an unknown issue type”.</li>
       <li><strong>Never put <code>eval_return_labels</code> in a prompt.</strong> It is the answer sheet for measuring accuracy. The app doesn't load it and it isn't deployed.</li>
     </ol>
-    <p>What a labelled comment looks like on screen (a real row; today it comes from the keyword stand-in):</p>
+    <p>What a labelled comment looks like on screen (a real row from the committed pipeline output). The current output
+      has no confidence or evidence phrase, so those are null: the dashboard shows the AI's <code>explanation</code> instead.</p>
     <pre class="code"><code>{
   &quot;return_id&quot;: &quot;RT000027&quot;,
   &quot;comment&quot;: &quot;sir material not as described, ye cotton nahi lagta&quot;,
   &quot;issue_type&quot;: &quot;quality&quot;,
-  &quot;confidence&quot;: 0.87,
-  &quot;evidence_phrase&quot;: &quot;material&quot;,
-  &quot;source&quot;: &quot;sample_stub&quot;,
-  &quot;model_name&quot;: &quot;sample-keyword-stub&quot;
+  &quot;confidence&quot;: null,
+  &quot;evidence_phrase&quot;: null,
+  &quot;explanation&quot;: &quot;The comment indicates that the material does not match the description.&quot;,
+  &quot;source&quot;: &quot;llm&quot;,
+  &quot;model_name&quot;: null
 }</code></pre>
 
     <h2 id="feedback">Neha's corrections, for improving the classifier</h2>
@@ -563,9 +567,10 @@ footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
           <td class="t"><code>too_small</code> | <code>too_large</code> | <code>colour_mismatch</code> | <code>quality</code> | <code>damaged</code> | <code>wrong_item</code> | <code>changed_mind</code> | <code>delivery_late</code> | <code>unclear</code> | <code>failed</code></td><td>Return reason. Same values as classified_returns.issue_type. <code>unclear</code> = no reason could be read; <code>failed</code> = the comment couldn&#x27;t be processed.</td></tr><tr><td><code class="f">confidence</code></td>
           <td class="t">number | null</td><td>0–1. Null for gate and failed rows</td></tr><tr><td><code class="f">evidence_phrase</code></td>
           <td class="t">string | null</td><td>Always an exact (case-insensitive) substring of <code>comment</code>, or null</td></tr><tr><td><code class="f">source</code></td>
-          <td class="t">string</td><td><code>dropdown</code> | <code>gate</code> | <code>cheap_model</code> | <code>strong_model</code> from the pipeline; <code>sample_stub</code> / <code>sample_stub_low_conf</code> before it runs; <code>pipeline</code> when it skipped this row</td></tr><tr><td><code class="f">model_name</code></td>
+          <td class="t">string</td><td><code>dropdown</code> | <code>gate</code> | <code>cheap_model</code> | <code>strong_model</code> | <code>llm</code> (AI, model tier not recorded); <code>sample_stub</code> / <code>sample_stub_low_conf</code> before the AI has run; <code>pipeline</code> when it skipped this row</td></tr><tr><td><code class="f">model_name</code></td>
           <td class="t">string | null</td><td></td></tr><tr><td><code class="f">error</code></td>
-          <td class="t">string | null</td><td>Why it failed, shown on screen. Set only when issue_type is <code>failed</code></td></tr></tbody></table></div></section><section class='sch' id='schema-Corrections'><h3><code>Corrections</code></h3><div class="tbl"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
+          <td class="t">string | null</td><td>Why it failed or couldn&#x27;t be read, shown on screen</td></tr><tr><td><code class="f">explanation</code><span class="opt">optional</span></td>
+          <td class="t">string | null</td><td>The AI&#x27;s own one-line reason for the label, in English. Null for dropdown, gate and keyword-match rows</td></tr></tbody></table></div></section><section class='sch' id='schema-Corrections'><h3><code>Corrections</code></h3><div class="tbl"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>
       <tbody><tr><td><code class="f">corrections</code></td>
           <td class="t">object: key → <a href="#schema-Mark">Mark</a></td><td>Latest mark per return_id</td></tr><tr><td><code class="f">accuracy</code></td>
           <td class="t"><a href="#schema-Accuracy">Accuracy</a></td><td></td></tr></tbody></table></div></section><section class='sch' id='schema-Mark'><h3><code>Mark</code></h3><div class="tbl"><table><thead><tr><th>Field</th><th>Type</th><th>Meaning</th></tr></thead>

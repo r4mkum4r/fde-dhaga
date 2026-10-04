@@ -24,8 +24,8 @@ Postgres instead, copy `.env.example` to `.env`, set `DATABASE_URL`, and export 
 - **Tests:** `pip install -r requirements-dev.txt && pytest -q`
 - **Hosted version:** a free static Hugging Face Space. To publish from a laptop signed in with `hf auth login`:
   `scripts/deploy_static.sh r4mkum4r/return-pulse`. Once the GitHub settings in the deploy plan are added, every push to `main` rebuilds the dashboard's data
-  from `csv/` and publishes the page; no server runs. If `csv/classified_returns.csv` (the AI pipeline's
-  output) is committed, the page uses those labels. Setup: `docs/frontend_deploy_plan.md` §4.
+  from `csv/` and publishes the page; no server runs. The labels on "Other" comments come from the AI
+  pipeline's output in `csv/classified_returns_with_dropdown.csv` (or `csv/classified_returns.csv` if present). Setup: `docs/frontend_deploy_plan.md` §4.
 - **Docker (optional):** `docker build -t return-pulse . && docker run -p 7860:7860 return-pulse` runs the API
   and page together, for hosts that run containers.
 - **More:** `frontend/README.md` (the page), `frontend/API_CONTRACT.md` (the endpoints).

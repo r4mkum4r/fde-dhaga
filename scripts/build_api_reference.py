@@ -73,7 +73,7 @@ request_examples = {
     ("get", "/api/returns"): f"/api/returns?vendor_id={spot['vendor_id']}&subcategory={spot['subcategory']}&issue_type=too_small",
 }
 sample_comment = next(r for r in client.get("/api/returns", params={"vendor_id": "V07"}).json()["returns"]
-                      if r["evidence_phrase"])
+                      if r["explanation"] or r["evidence_phrase"])
 
 # ---------------------------------------------------------------------------
 # Schema rendering
@@ -392,6 +392,7 @@ footer {{ color: var(--muted); font-size: 13px; margin-top: 40px; }}
       <tr><td><code class="f">evidence_phrase</code></td><td class="t">text</td><td>The words the label is based on. It must be an exact substring of <code>returns.other_text</code> (case-insensitive), or the dashboard won't highlight it.</td></tr>
       <tr><td><code class="f">source</code></td><td class="t">text, required</td><td><code>gate</code> (empty or junk text, no model called), <code>cheap_model</code>, <code>strong_model</code>.</td></tr>
       <tr><td><code class="f">model_name</code></td><td class="t">text</td><td>The model id that produced the label. Null for <code>gate</code>.</td></tr>
+      <tr><td><code class="f">explanation</code></td><td class="t">text, optional</td><td>The AI's one-line reason in plain English. Shown to Neha under the label.</td></tr>
       <tr><td><code class="f">classified_at</code></td><td class="t">timestamptz</td><td>Defaults to now. The API watches the row count and the latest timestamp to know when to recompute.</td></tr>
     </tbody></table></div>
     <ol class="rules">
@@ -402,8 +403,9 @@ footer {{ color: var(--muted); font-size: 13px; margin-top: 40px; }}
         appears as <code>failed</code> with the message “The AI returned an unknown issue type”.</li>
       <li><strong>Never put <code>eval_return_labels</code> in a prompt.</strong> It is the answer sheet for measuring accuracy. The app doesn't load it and it isn't deployed.</li>
     </ol>
-    <p>What a labelled comment looks like on screen (a real row; today it comes from the keyword stand-in):</p>
-    {code({k: sample_comment[k] for k in ("return_id", "comment", "issue_type", "confidence", "evidence_phrase", "source", "model_name")})}
+    <p>What a labelled comment looks like on screen (a real row from the committed pipeline output). The current output
+      has no confidence or evidence phrase, so those are null: the dashboard shows the AI's <code>explanation</code> instead.</p>
+    {code({k: sample_comment[k] for k in ("return_id", "comment", "issue_type", "confidence", "evidence_phrase", "explanation", "source", "model_name")})}
 
     <h2 id="feedback">Neha's corrections, for improving the classifier</h2>
     <p>Every ✓ / ✗ Neha clicks is stored in the <code>corrections</code> table and served by

@@ -22,6 +22,22 @@ def client(tmp_path, monkeypatch):
         yield c
 
 
+@pytest.fixture()
+def stub_client(tmp_path, monkeypatch):
+    """Like `client`, but on a copy of csv/ without the AI pipeline's output (the keyword-match stage)."""
+    import shutil
+    from app import db as dbmod, main
+    d = tmp_path / "csv"
+    shutil.copytree(ROOT / "csv", d, ignore=shutil.ignore_patterns("classified_returns*.csv"))
+    monkeypatch.setattr(dbmod, "CSV_DIR", d)
+    db = dbmod.Database(url="", sqlite_path=tmp_path / "stub.sqlite")
+    monkeypatch.setattr(main, "db", db)
+    main._cache.update(version=None, value=None)
+    with TestClient(main.app) as c:
+        c.db = db
+        yield c
+
+
 def strip_meta(d):
     return {k: v for k, v in d.items() if k != "meta"}
 
@@ -33,7 +49,7 @@ def test_health(client):
     body = r.json()
     assert body["status"] == "ok"
     assert body["tables"]["returns"] == 6571
-    assert body["labels_from"] == "sample_stub"
+    assert body["labels_from"] == "pipeline"  # csv/classified_returns_with_dropdown.csv is committed
     assert body["corrections_storage"] == "temporary"
 
 
@@ -42,9 +58,9 @@ def test_summary_matches_sample_files(client):
     api = client.get("/api/summary").json()
     sample = json.loads((ROOT / "frontend/sample/summary.json").read_text())
     assert strip_meta(api) == strip_meta(sample)
-    assert api["meta"]["data_mode"] == "sample"
+    assert api["meta"]["data_mode"] == sample["meta"]["data_mode"] == "live"
     assert api["meta"]["window"] == sample["meta"]["window"]
-    assert api["meta"]["classifier_note"]
+    assert api["meta"]["classifier_note"] is None
 
 
 def test_trend(client):
@@ -108,7 +124,8 @@ def test_bad_corrections_are_refused(client, payload, status):
 
 
 # ---------- the switch from stand-in to pipeline labels ----------
-def test_pipeline_labels_replace_the_stand_in(client):
+def test_pipeline_labels_replace_the_stand_in(stub_client):
+    client = stub_client
     assert client.get("/api/summary").json()["meta"]["data_mode"] == "sample"  # also builds the SQLite copy
     conn = sqlite3.connect(client.db.sqlite_path)
     other = [r[0] for r in conn.execute(
@@ -162,8 +179,9 @@ def test_unknown_pipeline_issue_shows_as_failed(client):
     conn = sqlite3.connect(client.db.sqlite_path)
     rid = conn.execute("SELECT return_id FROM returns WHERE reason_dropdown = 'Other' AND return_date >= '2025-10-01' "
                        "ORDER BY return_id LIMIT 1").fetchone()[0]
-    conn.execute("INSERT INTO classified_returns (return_id, issue_type, confidence, source) "
-                 "VALUES (?, 'fabric_quality', 0.9, 'cheap_model')", (rid,))
+    # A later pipeline run: new timestamp, so the API knows to recompute.
+    conn.execute("INSERT OR REPLACE INTO classified_returns (return_id, issue_type, confidence, source, classified_at) "
+                 "VALUES (?, 'fabric_quality', 0.9, 'cheap_model', '2999-01-01 00:00:00')", (rid,))
     conn.commit()
     conn.close()
     r = client.get("/api/returns", params={"issue_type": "failed"})
@@ -190,9 +208,9 @@ def test_browsers_always_check_for_a_new_version(client):
 def _csv_dir_with_labels(tmp_path):
     import shutil
     d = tmp_path / "csv"
-    shutil.copytree(ROOT / "csv", d)
+    shutil.copytree(ROOT / "csv", d, ignore=shutil.ignore_patterns("classified_returns*.csv"))
     other = [r for r in json.loads((ROOT / "frontend/sample/returns.json").read_text())["returns"]
-             if r["reason_dropdown"] == "Other"]
+             if r["reason_dropdown"] == "Other" and r["comment"] and r["comment"].strip(" .")]
     rid = other[0]["return_id"]
     (d / "classified_returns.csv").write_text(
         "return_id,issue_type,confidence,evidence_phrase,source,model_name\n"
@@ -213,8 +231,13 @@ def test_static_build_uses_pipeline_csv(tmp_path):
     rows = {r["return_id"]: r for r in json.loads((tmp_path / "out/returns.json").read_text())["returns"]}
     assert rows[rid]["issue_type"] == "quality"
     assert rows[rid]["confidence"] is None          # "NA" in the CSV, never made up
+    from app.analytics import no_usable_words
     skipped = [r for r in rows.values() if r["reason_dropdown"] == "Other" and r["return_id"] != rid]
-    assert all(r["issue_type"] == "failed" and r["error"] == "Not read by the AI yet" for r in skipped)
+    blank = [r for r in skipped if no_usable_words(r["comment"])]
+    unread = [r for r in skipped if not no_usable_words(r["comment"])]
+    # Blank comments: the code gate says so. Anything else the AI skipped: shown as failed, never guessed.
+    assert blank and all(r["issue_type"] == "unclear" and r["source"] == "gate" for r in blank)
+    assert unread and all(r["issue_type"] == "failed" and r["error"] == "Not read by the AI yet" for r in unread)
 
 
 def test_api_loads_pipeline_csv(tmp_path, monkeypatch):
@@ -227,3 +250,16 @@ def test_api_loads_pipeline_csv(tmp_path, monkeypatch):
         assert c.get("/api/summary").json()["meta"]["data_mode"] == "live"
         rows = {r["return_id"]: r for r in c.get("/api/returns").json()["returns"]}
         assert rows[rid]["issue_type"] == "quality"
+
+
+# ---------- the committed LLM output ----------
+def test_raw_classifier_output_is_used_as_is(client):
+    """csv/classified_returns_with_dropdown.csv: labels and the AI's reason shown; nothing made up."""
+    rows = {r["return_id"]: r for r in client.get("/api/returns").json()["returns"]}
+    r = rows["RT000139"]  # "SIZE M BAHUT TIGHT HAI, L LENA PADEGA ..."
+    assert r["issue_type"] == "too_small" and r["source"] == "llm"
+    assert r["explanation"] and r["confidence"] is None and r["evidence_phrase"] is None
+    other = [x for x in rows.values() if x["reason_dropdown"] == "Other"]
+    assert not [x for x in other if x["issue_type"] == "failed"]
+    blank = [x for x in other if x["source"] == "gate"]
+    assert blank and all(x["issue_type"] == "unclear" for x in blank)

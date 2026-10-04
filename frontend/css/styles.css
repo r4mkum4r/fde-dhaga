@@ -235,3 +235,7 @@ footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
 .sources { margin-top: 10px; font-size: 13px; color: var(--text-2); }
 .sources summary { cursor: pointer; color: var(--series-1); }
 .sources ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 3px; }
+
+/* the AI's own reason, under its label */
+.ret .explain { font-size: 13.5px; color: var(--text-2); margin-top: 6px; }
+.ret .explain .lbl { font-size: 11px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }

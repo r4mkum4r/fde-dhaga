@@ -16,6 +16,7 @@ const SOURCE_LABELS = {
   cheap_model: "read by AI",
   strong_model: "read by AI, then double-checked by a second AI",
   pipeline: "not read yet",
+  llm: "read by AI",
 };
 // Plain-language sentences for "What to fix first". Suggestions only; Neha decides.
 const ISSUE_PHRASE = {
@@ -43,7 +44,7 @@ const LOCATION_ISSUES = ["damaged", "delivery_late", "wrong_item"];
 const tag = (kind, title) => {
   // A brief tag shows its section (e.g. "Brief §05") so the source is readable without hovering.
   const section = kind === "brief" && title ? (title.match(/§\d+/) || [""])[0] : "";
-  const text = { brief: "Brief", calc: "Calc", est: "Estimate", sample: "Sample" }[kind] + (section ? ` ${section}` : "");
+  const text = { brief: "Brief", calc: "Calc", est: "Estimate", sample: "Test data" }[kind] + (section ? ` ${section}` : "");
   return `<span class="src ${kind}" title="${esc(title || "")}">${esc(text)}</span>`;
 };
 const TABLE_PREVIEW = 10;
@@ -174,7 +175,7 @@ function renderScale() {
   ];
   if (readRate != null) {
     cells.push({ k: "“Other” comments that would get a reason", v: `≈ ${int(Math.round(other * readRate))}`,
-      how: `${tag("est")}${int(Math.round(other))} × ${pct(readRate)} read by ${esc(rateSource)} ${tag("sample", "Measured on this data")}` });
+      how: `${tag("est")}${int(Math.round(other))} × ${pct(readRate)} read by ${esc(rateSource)} ${tag("sample", "Measured on the test data")}` });
     cells.push({ k: "Still needing a human read", v: `≈ ${int(Math.round(other * (1 - readRate)))}`, warn: true,
       how: `${tag("est")}the unclear and failed share, shown in full below, never guessed` });
   }
@@ -202,17 +203,17 @@ function renderTiles() {
       : "No labels checked yet. Open a problem spot and mark ✓ or ✗.";
   $("tiles").innerHTML = `
     <div class="tile">
-      <div class="label">${tag("sample", "Counted on the synthetic sample, not Dhaga's real volume")}Returns analysed</div>
+      <div class="label">${tag("sample", "Counted on the synthetic test data, not Dhaga's real volume")}Returns analysed</div>
       <div class="value hero">${int(h.returns)}</div>
       <div class="note">${esc(state.summary.meta.window.label)}</div>
     </div>
     <div class="tile">
-      <div class="label">${tag("sample", "Measured on the synthetic sample")}Returns with a known reason</div>
+      <div class="label">${tag("sample", "Measured on the synthetic test data")}Returns with a known reason</div>
       <div class="value">${pct(h.known_reason_before)}<span class="arrow">→</span>${pct(h.known_reason_after)}</div>
       <div class="note">Dropdown alone, then after reading ${int(h.other_comments)} “Other” comments</div>
     </div>
     <div class="tile alert">
-      <div class="label">${tag("sample", "Measured on the synthetic sample")}Couldn't classify</div>
+      <div class="label">${tag("sample", "Measured on the synthetic test data")}Couldn't classify</div>
       <div class="split">
         <div>${statusBadge("unclear")}<span class="value">${int(h.unclear)}</span>
           <button class="link" data-open="unclear">Read them</button></div>
@@ -574,7 +575,7 @@ function returnCard(r) {
   const conf = r.confidence != null && r.source !== "dropdown" ? ` · ${pct(Number(r.confidence))} sure` : "";
   const why = r.source === "dropdown"
     ? `Customer picked “${esc(r.reason_dropdown)}” in the app`
-    : `${esc(SOURCE_LABELS[r.source] || r.source)}${conf}` + (r.evidence_phrase ? ` · based on “${esc(r.evidence_phrase)}”` : "");
+    : `${esc(SOURCE_LABELS[r.source] || r.source)}${r.source === "llm" && r.model_name ? ` (${esc(r.model_name)})` : ""}${conf}` + (r.evidence_phrase ? ` · based on “${esc(r.evidence_phrase)}”` : "");
   const comment = r.comment
     ? `<div class="comment" lang="hi-Latn">${highlight(r.comment, r.evidence_phrase)}</div>`
     : `<div class="comment empty">${r.source === "dropdown" ? "No comment: reason picked from the dropdown." : "Empty comment."}</div>`;
@@ -592,6 +593,7 @@ function returnCard(r) {
       <span>${esc(r.product_name)} · size ${esc(r.size)}</span><span>${esc(r.vendor_id)}</span><span>${esc(r.return_id)}</span></div>
     ${comment}
     <div class="label-row">${statusBadge(r.issue_type)}<span class="why">${why}</span>${verdict}</div>
+    ${r.explanation ? `<div class="explain"><span class="lbl">AI's reason</span> ${esc(r.explanation)}</div>` : ""}
     ${r.error ? `<div class="error">✕ ${esc(r.error)}</div>` : ""}
   </article>`;
 }
@@ -704,14 +706,14 @@ async function boot() {
   }
 
   const m = state.summary.meta;
-  $("window-label").textContent = `${m.window.label} · ${int(state.summary.headline.returns)} returns in the ${m.data_mode === "sample" ? "sample" : "data"}`;
+  $("window-label").textContent = `${m.window.label} · ${int(state.summary.headline.returns)} returns in the ${m.synthetic ? "test data" : "data"}`;
   if (m.data_mode === "sample") {
     $("banner-title").textContent = "Sample data, not real results.";
     $("sample-note").textContent = `${m.classifier_note || ""} All orders and comments are synthetic.`;
     $("sample-banner").hidden = false;
   } else if (m.synthetic) {
     $("banner-title").textContent = "Test data.";
-    $("sample-note").textContent = "Labels come from the AI reading, but the orders and comments are synthetic.";
+    $("sample-note").textContent = "Labels come from the AI reading of each comment; the orders and comments themselves are synthetic.";
     $("sample-banner").hidden = false;
   }
   $("footer").textContent = `Covers ${m.window.label} · numbers worked out ${new Date(m.generated_at).toLocaleString("en-IN")} · `

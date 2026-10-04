@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS order_items (order_item_id TEXT PRIMARY KEY, order_id
 CREATE TABLE IF NOT EXISTS returns (return_id TEXT PRIMARY KEY, order_id TEXT, order_item_id TEXT, sku TEXT,
     return_date TEXT NOT NULL, raised_via TEXT, reason_dropdown TEXT NOT NULL, other_text TEXT, return_status TEXT);
 CREATE TABLE IF NOT EXISTS classified_returns (return_id TEXT PRIMARY KEY, issue_type TEXT NOT NULL,
-    confidence REAL, evidence_phrase TEXT, source TEXT NOT NULL, model_name TEXT,
+    confidence REAL, evidence_phrase TEXT, source TEXT NOT NULL, model_name TEXT, explanation TEXT,
     classified_at TEXT DEFAULT CURRENT_TIMESTAMP);
 CREATE TABLE IF NOT EXISTS corrections (id INTEGER PRIMARY KEY AUTOINCREMENT, return_id TEXT, model_issue_type TEXT,
     is_correct INTEGER NOT NULL, corrected_issue TEXT, note TEXT, corrected_by TEXT DEFAULT 'neha',
@@ -137,7 +137,7 @@ class Database:
         return self._all(ENRICHED_SQL)
 
     def classified(self):
-        rows = self._all("SELECT return_id, issue_type, confidence, evidence_phrase, source, model_name FROM classified_returns")
+        rows = self._all("SELECT * FROM classified_returns")  # explanation is optional (not in the Postgres schema)
         return {r["return_id"]: r for r in rows}
 
     def classified_version(self):

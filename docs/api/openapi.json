@@ -1124,7 +1124,7 @@
           "source": {
             "type": "string",
             "title": "Source",
-            "description": "`dropdown` | `gate` | `cheap_model` | `strong_model` from the pipeline; `sample_stub` / `sample_stub_low_conf` before it runs; `pipeline` when it skipped this row"
+            "description": "`dropdown` | `gate` | `cheap_model` | `strong_model` | `llm` (AI, model tier not recorded); `sample_stub` / `sample_stub_low_conf` before the AI has run; `pipeline` when it skipped this row"
           },
           "model_name": {
             "anyOf": [
@@ -1147,7 +1147,19 @@
               }
             ],
             "title": "Error",
-            "description": "Why it failed, shown on screen. Set only when issue_type is `failed`"
+            "description": "Why it failed or couldn't be read, shown on screen"
+          },
+          "explanation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Explanation",
+            "description": "The AI's own one-line reason for the label, in English. Null for dropdown, gate and keyword-match rows"
           }
         },
         "additionalProperties": false,

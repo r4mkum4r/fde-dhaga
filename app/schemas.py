@@ -126,10 +126,11 @@ class ReturnRow(Strict):
     issue_type: IssueType = Field(description=ISSUE_DOC)
     confidence: Optional[float] = Field(description="0–1. Null for gate and failed rows")
     evidence_phrase: Optional[str] = Field(description="Always an exact (case-insensitive) substring of `comment`, or null")
-    source: str = Field(description="`dropdown` | `gate` | `cheap_model` | `strong_model` from the pipeline; "
-                                    "`sample_stub` / `sample_stub_low_conf` before it runs; `pipeline` when it skipped this row")
+    source: str = Field(description="`dropdown` | `gate` | `cheap_model` | `strong_model` | `llm` (AI, model tier not recorded); "
+                                    "`sample_stub` / `sample_stub_low_conf` before the AI has run; `pipeline` when it skipped this row")
     model_name: Optional[str]
-    error: Optional[str] = Field(description="Why it failed, shown on screen. Set only when issue_type is `failed`")
+    error: Optional[str] = Field(description="Why it failed or couldn't be read, shown on screen")
+    explanation: Optional[str] = Field(None, description="The AI's own one-line reason for the label, in English. Null for dropdown, gate and keyword-match rows")
 
 
 class ReturnsPage(Strict):
